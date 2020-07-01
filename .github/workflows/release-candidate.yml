@@ -31,11 +31,13 @@ jobs:
         versions:
           - osarch: "windows-x86_64"
             arch: "x64"
-            choco_opts: ""
+            choco_ghc_opts: ""
+            choco_msys_opts: ""
             cabal_opts: "-j1"
           - osarch: "windows-i386"
             arch: "x86"
-            choco_opts: "-x86"
+            choco_ghc_opts: "--version=8.6.5 --x86"
+            choco_msys_opts: "--version=20190524.0.0.20191030 --x86"
             cabal_opts: "-j1 -flua_32bits"
             # we use stack 2.1.3 because 2.3.1 doesn't support i386
 
@@ -44,7 +46,8 @@ jobs:
     - name: Install ghc and cabal
       shell: cmd
       run: |
-          cinst haskell-dev ${{ matrix.versions.choco_opts }}
+          choco install msys2 ${{ matrix.version.choco_msys_opts }}
+          choco install ghc ${{ matrix.version.choco_ghc_opts }}
     - name: Install
       run: |
           cabal v2-update
