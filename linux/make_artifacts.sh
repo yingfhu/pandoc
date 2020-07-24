@@ -9,6 +9,20 @@ esac
 
 ARTIFACTS="${ARTIFACTS:-/artifacts}"
 
+# build binaries
+
+cabal --version
+ghc --version
+
+cabal v2-update
+cabal v2-clean
+cabal v2-configure --enable-tests -f-export-dynamic -fstatic -fembed_data_files -fbibutils --ghc-options '-optc-Os -optl=-pthread -optl=-static -fPIC -split-sections' . pandoc-citeproc
+cabal v2-build . pandoc-citeproc
+cabal v2-test -j1 . pandoc-citeproc
+for f in $(find dist-newstyle -name 'pandoc*' -type f -perm +400); do cp $f /artifacts/; done
+
+# make deb
+
 VERSION=`$ARTIFACTS/pandoc --version | awk '{print $2; exit;}'`
 REVISION=${REVISION:-1}
 DEBVER=$VERSION-$REVISION
@@ -49,3 +63,20 @@ perl -pe "s/VERSION/$DEBVER/" linux/control.in | \
 fakeroot dpkg-deb --build $DIST
 rm -rf $DIST
 cp $BASE.deb $ARTIFACTS/
+
+# Make tarball
+
+cd $ARTIFACTS
+rm -rf $TARGET
+mkdir $TARGET
+mkdir $TARGET/bin $TARGET/share $TARGET/share/man $TARGET/share/man/man1
+./pandoc-citeproc --man > $TARGET/share/man/man1/pandoc-citeproc.1
+cp /mnt/man/pandoc.1 $TARGET/share/man/man1
+mv pandoc pandoc-citeproc $TARGET/bin
+strip $TARGET/bin/pandoc
+strip $TARGET/bin/pandoc-citeproc
+gzip -9 $TARGET/share/man/man1/pandoc.1
+gzip -9 $TARGET/share/man/man1/pandoc-citeproc.1
+tar cvzf $TARGET-linux-amd64.tar.gz $TARGET
+rm -r $TARGET
+
