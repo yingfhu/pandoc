@@ -71,7 +71,7 @@ rm -rf $TARGET
 mkdir $TARGET
 mkdir $TARGET/bin $TARGET/share $TARGET/share/man $TARGET/share/man/man1
 ./pandoc-citeproc --man > $TARGET/share/man/man1/pandoc-citeproc.1
-cp /mnt/man/pandoc.1 $TARGET/share/man/man1
+cp man/pandoc.1 $TARGET/share/man/man1
 mv pandoc pandoc-citeproc $TARGET/bin
 strip $TARGET/bin/pandoc
 strip $TARGET/bin/pandoc-citeproc
