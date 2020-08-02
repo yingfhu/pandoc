@@ -75,7 +75,7 @@ debpkg: man/pandoc.1
                    -v `pwd`/linux/artifacts:/artifacts \
 		   -e REVISION=$(REVISION) \
 		   -w /mnt \
-	           utdemir/ghc-musl:v8-libgmp-ghc8101 bash \
+	           utdemir/ghc-musl:v11-libgmp-ghc8101 bash \
 		   /mnt/linux/make_artifacts.sh
 	cp linux/artifacts/pandoc-$(version)-*.* .
 
