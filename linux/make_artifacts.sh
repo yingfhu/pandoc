@@ -27,11 +27,9 @@ VERSION=`$ARTIFACTS/pandoc --version | awk '{print $2; exit;}'`
 REVISION=${REVISION:-1}
 DEBVER=$VERSION-$REVISION
 BASE=pandoc-$DEBVER-$ARCHITECTURE
-DIST=`pwd`/$BASE
+DIST=$ARTIFACTS/$BASE
 DEST=$DIST/usr
 COPYRIGHT=$DEST/share/doc/pandoc/copyright
-
-PANDOC_CITEPROC_VERSION=`$ARTIFACTS/pandoc-citeproc --version | awk '{print $2;}'`
 
 mkdir -p $DEST/bin
 mkdir -p $DEST/share/man/man1
@@ -60,12 +58,16 @@ perl -pe "s/VERSION/$DEBVER/" linux/control.in | \
   perl -pe "s/INSTALLED_SIZE/$INSTALLED_SIZE/" \
   > $DIST/DEBIAN/control
 
-fakeroot dpkg-deb --build $DIST
-rm -rf $DIST
-cp $BASE.deb $ARTIFACTS/
+echo "$BASE.deb:" > $ARTIFACTS/Makefile
+echo "\tfakeroot dpkg-deb --build $BASE" >> $ARTIFACTS/Makefile
+
+# fakeroot dpkg-deb --build $DIST
+# rm -rf $DIST
+# cp $BASE.deb $ARTIFACTS/
 
 # Make tarball
 
+TARGET=pandoc-$VERSION
 cd $ARTIFACTS
 rm -rf $TARGET
 mkdir $TARGET
