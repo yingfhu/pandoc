@@ -16,7 +16,7 @@ ghc --version
 
 cabal v2-update
 cabal v2-clean
-cabal v2-configure --enable-tests -f-export-dynamic -fstatic -fembed_data_files -fbibutils --ghc-options '-optc-Os -optl=-pthread -optl=-static -fPIC -split-sections' . pandoc-citeproc
+cabal v2-configure --enable-tests -f-export-dynamic -fstatic -fembed_data_files -fbibutils --enable-executable-static --ghc-options '-optc-Os -optl=-pthread -split-sections' . pandoc-citeproc
 cabal v2-build . pandoc-citeproc
 cabal v2-test -j1 . pandoc-citeproc
 for f in $(find dist-newstyle -name 'pandoc*' -type f -perm +400); do cp $f /artifacts/; done
