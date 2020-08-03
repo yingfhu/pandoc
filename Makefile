@@ -77,7 +77,6 @@ debpkg: man/pandoc.1
 		   -w /mnt \
 	           utdemir/ghc-musl:v11-libgmp-ghc8101 bash \
 		   /mnt/linux/make_artifacts.sh
-	cp linux/artifacts/pandoc-$(version)-*.* .
 
 macospkg: man/pandoc.1
 	./macos/make_macos_package.sh

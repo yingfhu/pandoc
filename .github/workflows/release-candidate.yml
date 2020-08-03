@@ -15,8 +15,7 @@ jobs:
       run: |
           make debpkg
           mkdir linux-release-candidate
-          cp linux/artifacts/*.deb linux-release-candidate/
-          cp linux/artifacts/*.tar.gz linux-release-candidate/
+          cp linux/artifacts/* linux-release-candidate/
     - uses: actions/upload-artifact@v2
       with:
         name: linux-release-candidate
