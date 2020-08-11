@@ -58,7 +58,8 @@ perl -pe "s/VERSION/$DEBVER/" linux/control.in | \
   perl -pe "s/INSTALLED_SIZE/$INSTALLED_SIZE/" \
   > $DIST/DEBIAN/control
 
-fakeroot dpkg-deb -Zgzip -z4 --build $DIST
+# we limit compression to avoid OOM error
+fakeroot dpkg-deb -Zgzip -z7 --build $DIST
 rm -rf $DIST
 cp $BASE.deb $ARTIFACTS/
 
