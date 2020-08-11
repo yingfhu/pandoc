@@ -58,7 +58,7 @@ perl -pe "s/VERSION/$DEBVER/" linux/control.in | \
   perl -pe "s/INSTALLED_SIZE/$INSTALLED_SIZE/" \
   > $DIST/DEBIAN/control
 
-fakeroot dpkg-deb --build $DIST
+fakeroot dpkg-deb -Zgzip -z4 --build $DIST
 rm -rf $DIST
 cp $BASE.deb $ARTIFACTS/
 
