@@ -27,7 +27,7 @@ VERSION=`$ARTIFACTS/pandoc --version | awk '{print $2; exit;}'`
 REVISION=${REVISION:-1}
 DEBVER=$VERSION-$REVISION
 BASE=pandoc-$DEBVER-$ARCHITECTURE
-DIST=$ARTIFACTS/$BASE
+DIST=`pwd`/$BASE
 DEST=$DIST/usr
 COPYRIGHT=$DEST/share/doc/pandoc/copyright
 
