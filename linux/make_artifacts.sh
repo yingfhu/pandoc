@@ -58,11 +58,9 @@ perl -pe "s/VERSION/$DEBVER/" linux/control.in | \
   perl -pe "s/INSTALLED_SIZE/$INSTALLED_SIZE/" \
   > $DIST/DEBIAN/control
 
-MAKEFILE=$ARTIFACTS/Makefile
-
-echo -e "all: $BASE.deb $TARGET-linux-amd64.tar.gz" > $MAKEFILE
-echo -e "\n$BASE.deb:" >> $MAKEFILE
-echo -e "\tfakeroot dpkg-deb --build $BASE" >> $MAKEFILE
+fakeroot dpkg-deb --build $DIST
+rm -rf $DIST
+cp $BASE.deb $ARTIFACTS/
 
 # Make tarball
 
@@ -79,5 +77,5 @@ strip $TARGET/bin/pandoc-citeproc
 gzip -9 $TARGET/share/man/man1/pandoc.1
 gzip -9 $TARGET/share/man/man1/pandoc-citeproc.1
 
-echo -e "\n$TARGET-linux-amd64.tar.gz:" >> $MAKEFILE
-echo -e "\ttar cvzf $@ $TARGET" >> $MAKEFILE
+tar cvzf $TARGET-linux-amd64.tar.gz $TARGET
+rm -r $TARGET
