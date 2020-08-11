@@ -59,7 +59,7 @@ perl -pe "s/VERSION/$DEBVER/" linux/control.in | \
   > $DIST/DEBIAN/control
 
 # we limit compression to avoid OOM error
-fakeroot dpkg-deb -Zgzip -z7 --build $DIST
+fakeroot dpkg-deb -Zgzip -z9 --build $DIST
 rm -rf $DIST
 cp $BASE.deb $ARTIFACTS/
 
