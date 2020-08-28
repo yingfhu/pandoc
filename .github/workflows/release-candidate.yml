@@ -38,7 +38,6 @@ jobs:
             arch: "x86"
             choco_opts: "--x86 --version 2.1.3.20190715"
             stack_opts: "-j1 --flag hslua:lua_32bits"
-            stack_yaml_overrides: "compiler: ghc-8.6.3\\ncompiler-check: match-exact"
             # we use stack 2.1.3 because 2.3.1 doesn't support i386
             # note that ghc 8.6.3 is the last one with an i386 binary
 
@@ -48,10 +47,10 @@ jobs:
       shell: cmd
       run: |
           choco install haskell-stack ${{ matrix.versions.choco_opts }}
-    - name: Update stack.yaml if needed
+    - name: Update stack.yaml to use ghc 8.6.3
       shell: cmd
       run: |
-          echo -e "${{ matrix.versions.stack_yaml_overrides }}" >> stack.yaml
+          type stack_windows_overrides.yaml >> stack.yaml
     - name: Install dependencies
       run: |
           stack update
