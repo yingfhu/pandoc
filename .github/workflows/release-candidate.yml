@@ -46,7 +46,7 @@ jobs:
     - name: Install stack
       shell: cmd
       run: |
-          choco install ghc --version=${{ matrix.versions.ghc }} ${{ matrix.versions.choco_opts }}
+          choco install ghc --version=${{ matrix.versions.ghc }} --allow-downgrade ${{ matrix.versions.choco_opts }}
           choco install haskell-stack ${{ matrix.versions.choco_opts }}
     - name: Install dependencies
       run: |
