@@ -29,16 +29,16 @@ jobs:
       fail-fast: true
       matrix:
         versions:
-          - osarch: "windows-x86_64"
-            arch: "x64"
-            choco_opts: ""
-            stack_opts: "-j1"
-            stack_yaml_overrides: ""
+          # - osarch: "windows-x86_64"
+          #   arch: "x64"
+          #   choco_opts: ""
+          #   stack_opts: "-j1"
+          #   stack_yaml_overrides: ""
           - osarch: "windows-i386"
             arch: "x86"
             choco_opts: "--x86 --version 2.1.3.20190715"
             stack_opts: "-j1 --flag hslua:lua_32bits"
-            stack_yaml_overrides: "compiler: ghc-8.6.3\ncompiler-check: match-exact"
+            stack_yaml_overrides: "compiler: ghc-8.6.3\\ncompiler-check: match-exact"
             # we use stack 2.1.3 because 2.3.1 doesn't support i386
             # note that ghc 8.6.3 is the last one with an i386 binary
 
