@@ -54,7 +54,7 @@ jobs:
           choco install haskell-stack --version=${{ matrix.versions.stack }} ${{ matrix.versions.choco_opts }}
     - name: Install dependencies
       run: |
-          config set system-ghc --global true
+          stack config set system-ghc --global true
           stack update
           stack build ${{ matrix.versions.stack_opts }} --dependencies-only pandoc pandoc-citeproc
     - name: Create windows package
