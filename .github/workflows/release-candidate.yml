@@ -36,10 +36,11 @@ jobs:
             cabal_opts: "-j1"
           - osarch: "windows-i386"
             arch: "x86"
-            choco_ghc_opts: "--version=8.6.5 --x86"
+            choco_ghc_opts: "--version=8.6.3 --x86"
             choco_msys_opts: "--version=20190524.0.0.20191030 --x86"
             cabal_opts: "-j1 -flua_32bits"
             # we use stack 2.1.3 because 2.3.1 doesn't support i386
+            # we use ghc 8.6.3 because it's the last version with i386 support
 
     steps:
     - uses: actions/checkout@v1
