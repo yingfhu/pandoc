@@ -1,2 +1,0 @@
-compiler: ghc-8.6.3
-compiler-check: match-exact
