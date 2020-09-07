@@ -3,12 +3,6 @@ flags:
     trypandoc: false
     embed_data_files: true
     static: false
-  pandoc-citeproc:
-    bibutils: true
-    embed_data_files: true
-    unicode_collation: false
-    test_citeproc: false
-    debug: false
 packages:
 - '.'
 extra-deps:
@@ -16,7 +10,6 @@ extra-deps:
   commit: 8e9ca37802120f32ececac752d73463e2fc86811
 - git: https://github.com/jgm/citeproc
   commit: 7ace59d7d833c184be32ba4dc06a11ba3bd46277
-- pandoc-citeproc-0.17.0.2
 - rfc5051-0.2
 - texmath-0.12.0.2
 - haddock-library-1.9.0
