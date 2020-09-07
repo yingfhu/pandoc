@@ -15,7 +15,7 @@ extra-deps:
 - git: https://github.com/jgm/pandoc-types
   commit: 8e9ca37802120f32ececac752d73463e2fc86811
 - git: https://github.com/jgm/citeproc
-  commit: c7db130a7b7aa627a72c9f3d51328fb826894ed2
+  commit: 7ace59d7d833c184be32ba4dc06a11ba3bd46277
 - pandoc-citeproc-0.17.0.2
 - rfc5051-0.2
 - texmath-0.12.0.2
