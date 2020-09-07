@@ -18,13 +18,12 @@ module Text.Pandoc.Citeproc
 where
 
 import Citeproc as Citeproc
-import Citeproc.CaseTransform
+import Citeproc.Pandoc ()
 import Text.Pandoc.Citeproc.Locator (parseLocator)
 import Text.Pandoc.Citeproc.CslJson (readCslJson)
 import Text.Pandoc.Citeproc.Bibtex (readBibtexString, Variant(..))
 import Text.Pandoc.Citeproc.MetaValue (metaValueToReference, metaValueToText,
                                   metaValueToPath)
-import Text.Pandoc.Citeproc.Util (caseTransform)
 import Data.ByteString (ByteString)
 import Text.Pandoc.Definition as Pandoc
 import Text.Pandoc.Walk
@@ -41,7 +40,6 @@ import Data.Char (isPunctuation)
 import Data.Text (Text)
 import qualified Data.Text as T
 import qualified Data.Text.Encoding as TE
-import Data.Functor.Reverse
 import Control.Monad.Trans.State
 import qualified Data.Sequence as Seq
 import qualified Data.Foldable as Foldable
@@ -256,135 +254,6 @@ fromPandocCitations locale otherIdsMap = concatMap go
                                  -> [ cit{ citationItemType =
                                               Citeproc.SuppressAuthor } ]
 
--- TODO should this be added to citeproc itself?
-instance CiteprocOutput Inlines where
-  toText                = stringify
-  fromText              = B.text
-  dropTextWhile f       = dropTextWhile' f
-  dropTextWhileEnd f    = dropTextWhileEnd' f
-  addFontVariant x      =
-    case x of
-      NormalVariant    -> id
-      SmallCapsVariant -> B.smallcaps
-  addFontStyle x        =
-    case x of
-      NormalFont       -> id
-      ItalicFont       -> B.emph
-      ObliqueFont      -> B.emph
-  addFontWeight x       =
-    case x of
-      NormalWeight     -> id
-      LightWeight      -> id
-      BoldWeight       -> B.strong
-  addTextDecoration x   =
-    case x of
-      NoDecoration        -> B.spanWith ("",["nodecoration"],[])
-      UnderlineDecoration -> B.underline
-  addVerticalAlign x    =
-    case x of
-      BaselineAlign    -> id
-      SubAlign         -> B.subscript
-      SupAlign         -> B.superscript
-  addTextCase x         =
-    case x of
-      Lowercase        -> caseTransform withLowercaseAll
-      Uppercase        -> caseTransform withUppercaseAll
-      CapitalizeFirst  -> caseTransform withCapitalizeFirst
-      CapitalizeAll    -> caseTransform withCapitalizeWords
-      SentenceCase     -> caseTransform withSentenceCase
-      TitleCase        -> caseTransform withTitleCase
-  addDisplay x          =
-    case x of
-      DisplayBlock       -> B.spanWith ("",["csl-display-block"],[])
-      DisplayLeftMargin  -> B.spanWith ("",["csl-display-left-margin"],[])
-      DisplayRightInline -> B.spanWith ("",["csl-display-right-inline"],[])
-      DisplayIndent      -> B.spanWith ("",["csl-display-indent"],[])
-  addQuotes             = B.doubleQuoted . flipFlopQuotes DoubleQuote
-  inNote                = B.note . B.para . addTextCase CapitalizeFirst
-  movePunctuationInsideQuotes
-                        = punctuationInsideQuotes
-  mapText f             = walk go
-    where go (Str t) = Str (f t)
-          go x       = x
-  addHyperlink t        = B.link t ""
-
-flipFlopQuotes :: QuoteType -> Inlines -> Inlines
-flipFlopQuotes qt = B.fromList . map (go qt) . B.toList
- where
-  go :: QuoteType -> Inline -> Inline
-  go q (Quoted _ zs) =
-    let q' = case q of
-               SingleQuote -> DoubleQuote
-               DoubleQuote -> SingleQuote
-    in  Quoted q' (map (go q') zs)
-  go q (SmallCaps zs) = SmallCaps (map (go q) zs)
-  go q (Superscript zs) = Superscript (map (go q) zs)
-  go q (Subscript zs) = Subscript (map (go q) zs)
-  go q (Span attr zs) = Span attr (map (go q) zs)
-  go q (Emph zs) = Emph (map (go q) zs)
-  go q (Underline zs) = Underline (map (go q) zs)
-  go q (Strong zs) = Strong (map (go q) zs)
-  go q (Strikeout zs) = Strikeout (map (go q) zs)
-  go q (Cite cs zs) = Cite cs (map (go q) zs)
-  go q (Link attr zs t) = Link attr (map (go q) zs) t
-  go q (Image attr zs t) = Image attr (map (go q) zs) t
-  go _ x = x
-
-punctuationInsideQuotes :: Inlines -> Inlines
-punctuationInsideQuotes = B.fromList . go . walk go . B.toList
- where
-  go [] = []
-  go (Quoted qt xs : Str t : rest)
-    | "." `T.isPrefixOf` t ||
-      "," `T.isPrefixOf` t
-      = Quoted qt (xs ++ [Str (T.take 1 t) | not (endWithPunct True xs)]) :
-        if T.length t == 1
-           then go rest
-           else Str (T.drop 1 t) : go rest
-  go (x:xs) = x : go xs
-
-dropTextWhile' :: (Char -> Bool) -> Inlines -> Inlines
-dropTextWhile' f ils = evalState (walkM go ils) True
- where
-  go x = do
-    atStart <- get
-    if atStart
-       then
-         case x of
-           Str t -> do
-             let t' = T.dropWhile f t
-             unless (T.null t') $
-               put False
-             return $ Str t'
-           Space ->
-             if f ' '
-                then return $ Str ""
-                else do
-                  put False
-                  return Space
-           _ -> return x
-       else return x
-
-
-dropTextWhileEnd' :: (Char -> Bool) -> Inlines -> Inlines
-dropTextWhileEnd' f ils =
-  getReverse $ evalState (walkM go $ Reverse ils) True
- where
-  go x = do
-    atEnd <- get
-    if atEnd
-       then
-         case x of
-           Str t -> do
-             let t' = T.dropWhileEnd f t
-             unless (T.null t') $
-               put False
-             return $ Str t'
-           Space | f ' ' -> do
-             return $ Str ""
-           _ -> return x
-       else return x
-
 
 
 data BibFormat =
@@ -470,30 +339,13 @@ endWithPunct onlyFinal xs@(_:_) =
              | otherwise         -> False
   where isEndPunct c = c `elem` (".,;:!?" :: String)
 
+
+
 startWithPunct :: [Inline] -> Bool
 startWithPunct ils =
   case T.uncons (stringify ils) of
     Just (c,_) -> c `elem` (".,;:!?" :: [Char])
     Nothing -> False
-
-deNote :: Inline -> Inline
-deNote (Note bs) = Note $ walk go bs
- where
-  go (Note bs')
-       = Span ("",[],[]) (Space : Str "(" :
-                          (removeFinalPeriod
-                            (blocksToInlines bs')) ++ [Str ")"])
-  go x = x
-deNote x = x
-
--- Note: we can't use dropTextWhileEnd because this would
--- remove the final period on abbreviations like Ibid.
--- But removing a final Str "." is safe.
-removeFinalPeriod :: [Inline] -> [Inline]
-removeFinalPeriod ils =
-  case lastMay ils of
-    Just (Str ".") -> initSafe ils
-    _              -> ils
 
 truish :: MetaValue -> Bool
 truish (MetaBool t) = t
@@ -589,3 +441,25 @@ extractText (TextVal x)  = x
 extractText (FancyVal x) = toText x
 extractText (NumVal n)   = T.pack (show n)
 extractText _            = mempty
+
+deNote :: Inline -> Inline
+deNote (Note bs) = Note $ walk go bs
+ where
+  go (Note bs')
+       = Span ("",[],[]) (Space : Str "(" :
+                          (removeFinalPeriod
+                            (blocksToInlines bs')) ++ [Str ")"])
+  go x = x
+deNote x = x
+
+-- Note: we can't use dropTextWhileEnd because this would
+-- remove the final period on abbreviations like Ibid.
+-- But removing a final Str "." is safe.
+removeFinalPeriod :: [Inline] -> [Inline]
+removeFinalPeriod ils =
+  case lastMay ils of
+    Just (Str ".") -> initSafe ils
+    _              -> ils
+
+
+

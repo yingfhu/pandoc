@@ -28,7 +28,8 @@ import Text.Pandoc.Shared (stringify)
 import qualified Text.Pandoc.Walk       as Walk
 import Citeproc.Types
 import Citeproc.CaseTransform (withSentenceCase)
-import Text.Pandoc.Citeproc.Util (caseTransform, toIETF)
+import Citeproc.Pandoc (caseTransform)
+import Text.Pandoc.Citeproc.Util (toIETF)
 import Text.Pandoc.Citeproc.Data (biblatexStringMap)
 import Data.Default
 import           Data.Text              (Text)
