@@ -10,7 +10,7 @@
 {-# LANGUAGE DeriveTraversable #-}
 module Text.Pandoc.Citeproc
   ( fromPandocCitations
-  , processCites
+  , processCitations
   , BibFormat(..)
   , formatFromExtension
   , getRefs
@@ -53,8 +53,8 @@ import Safe (lastMay, initSafe)
 import Debug.Trace as Trace (trace, traceShowId)
 
 
-processCites :: PandocMonad m => Pandoc -> m Pandoc
-processCites (Pandoc meta bs) = do
+processCitations :: PandocMonad m => Pandoc -> m Pandoc
+processCitations (Pandoc meta bs) = do
   let cslfile = (lookupMeta "csl" meta <|> lookupMeta "citation-style" meta)
                 >>= metaValueToPath
   cslContents <- maybe (readDataFile "citeproc/chicago-author-date.csl")
