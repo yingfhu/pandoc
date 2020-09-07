@@ -341,7 +341,7 @@ showLogMessage msg =
        RunningFilter fp -> "Running filter " <> Text.pack fp
        FilterCompleted fp ms -> "Completed filter " <> Text.pack fp <>
           " in " <> Text.pack (show ms) <> " ms"
-       CiteprocWarning ms -> "Citeproc " <> ms
+       CiteprocWarning ms -> "Citeproc: " <> ms
 
 messageVerbosity :: LogMessage -> Verbosity
 messageVerbosity msg =
