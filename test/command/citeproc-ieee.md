@@ -48,6 +48,7 @@ References {#references .unnumbered}
 [^3]: Like a citation without author: [-@item1], and now Doe with a
     locator [-@item2 p. 44].
 ^D
+[WARNING] Citeproc: citation nonexistent not found
 Pandoc with citeproc-hs
 =======================
 
