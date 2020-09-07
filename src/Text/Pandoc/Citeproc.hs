@@ -30,7 +30,8 @@ import Text.Pandoc.Definition as Pandoc
 import Text.Pandoc.Walk
 import Text.Pandoc.Builder as B
 import Text.Pandoc (PandocMonad(..), PandocError(..), readMarkdown,
-                    readDataFile, ReaderOptions(..), pandocExtensions)
+                    readDataFile, ReaderOptions(..), pandocExtensions,
+                    report, LogMessage(..) )
 import Text.Pandoc.Shared (stringify, ordNub, blocksToInlines)
 import Data.Default
 import Data.Ord ()
@@ -52,8 +53,8 @@ import Safe (lastMay, initSafe)
 import Debug.Trace as Trace (trace, traceShowId)
 
 
-processCites :: PandocMonad m => Bool -> Pandoc -> m Pandoc
-processCites quiet (Pandoc meta bs) = do
+processCites :: PandocMonad m => Pandoc -> m Pandoc
+processCites (Pandoc meta bs) = do
   let cslfile = (lookupMeta "csl" meta <|> lookupMeta "citation-style" meta)
                 >>= metaValueToPath
   cslContents <- maybe (readDataFile "citeproc/chicago-author-date.csl")
@@ -108,9 +109,7 @@ processCites quiet (Pandoc meta bs) = do
   let opts = defaultCiteprocOptions{ linkCitations = linkCites }
   let result = Citeproc.citeproc opts style (localeLanguage locale)
                   refs citations
-  unless quiet $
-    mapM_ (\msg -> Trace.trace (T.unpack $ "WARNING: " <> msg) (return ()))
-            (resultWarnings result)
+  mapM_ (report . CiteprocWarning) (resultWarnings result)
   let classes = "references" : ["hanging-indent" | styleHangingIndent
                                     (styleOptions style)]
   let bibs = mconcat $ map (\(ident, out) ->
