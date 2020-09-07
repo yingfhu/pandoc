@@ -204,6 +204,8 @@ extra-source-files:
                  test/bodybg.gif
                  test/*.native
                  test/command/*.md
+                 test/command/*.csl
+                 test/command/biblio.bib
                  test/command/A.txt
                  test/command/B.txt
                  test/command/C.txt
