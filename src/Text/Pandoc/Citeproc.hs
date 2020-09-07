@@ -48,12 +48,15 @@ import qualified Data.Foldable as Foldable
 import System.FilePath
 import Control.Applicative
 import Control.Monad.Except
-import Data.Maybe (mapMaybe, fromMaybe)
+import Data.Maybe (mapMaybe, fromMaybe, isNothing)
 import Safe (lastMay, initSafe)
 import Debug.Trace as Trace (trace, traceShowId)
 
 
 processCitations :: PandocMonad m => Pandoc -> m Pandoc
+processCitations (Pandoc meta bs)
+  | isNothing (lookupMeta "bibliography" meta)
+  , isNothing (lookupMeta "references" meta) = return $ Pandoc meta bs
 processCitations (Pandoc meta bs) = do
   let cslfile = (lookupMeta "csl" meta <|> lookupMeta "citation-style" meta)
                 >>= metaValueToPath

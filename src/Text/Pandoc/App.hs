@@ -80,14 +80,6 @@ convertWithOpts opts = do
   let isPandocCiteproc (JSONFilter f) = takeBaseName f == "pandoc-citeproc"
       isPandocCiteproc _              = False
 
-  -- Citation processing is triggered when the metadata contains
-  -- bibliography (perhaps added by --bibliography) or references,
-  -- and cite method is not --natbib or --biblatex.
-  let needsCiteproc = isJust (lookupMeta "bibliography"
-                                (optMetadata opts)) &&
-                      optCiteMethod opts `notElem` [Natbib, Biblatex] &&
-                      not (any isPandocCiteproc filters)
-
   let sources = case optInputFiles opts of
                      Just xs | not (optIgnoreArgs opts) -> xs
                      _ -> ["-"]
@@ -282,7 +274,7 @@ convertWithOpts opts = do
               >=> return . adjustMetadata (metadataFromFile <>)
               >=> return . adjustMetadata (<> metadata)
               >=> applyTransforms transforms
-              >=> (if needsCiteproc
+              >=> (if not (any isPandocCiteproc filters)
                       then processCitations
                       else return)
               >=> applyFilters readerOpts filters [T.unpack format]
