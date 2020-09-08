@@ -1662,6 +1662,7 @@ str = do
       abbrevs <- getOption readerAbbreviations
       if not (T.null result) && T.last result == '.' && result `Set.member` abbrevs
          then try (do ils <- whitespace
+                      notFollowedBy (() <$ cite <|> () <$ note)
                       -- ?? lookAhead alphaNum
                       -- replace space after with nonbreaking space
                       -- if softbreak, move before abbrev if possible (#4635)
