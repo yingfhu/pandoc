@@ -280,6 +280,7 @@ header when requesting a document from a URL:
     - `commonmark` ([CommonMark] Markdown)
     - `commonmark_x` ([CommonMark] Markdown with extensions)
     - `context` ([ConTeXt])
+    - `csljson` ([CSL JSON] bibliography)
     - `docbook` or `docbook4` ([DocBook] 4)
     - `docbook5` (DocBook 5)
     - `docx` ([Word docx])
@@ -491,6 +492,7 @@ header when requesting a document from a URL:
 [Muse]: https://amusewiki.org/library/manual
 [PowerPoint]: https://en.wikipedia.org/wiki/Microsoft_PowerPoint
 [Vimwiki]: https://vimwiki.github.io
+[CSL JSON]: https://citeproc-js.readthedocs.io/en/latest/csl-json/markup.html
 
 ## Reader options {.options}
 
@@ -1427,6 +1429,7 @@ Nonzero exit codes have the following meanings:
    21 PandocUnknownReaderError
    22 PandocUnknownWriterError
    23 PandocUnsupportedExtensionError
+   24 PandocCiteprocError
    31 PandocEpubSubdirectoryError
    43 PandocPDFError
    47 PandocPDFProgramNotFoundError

@@ -558,6 +558,7 @@ library
                    Text.Pandoc.Writers.FB2,
                    Text.Pandoc.Writers.TEI,
                    Text.Pandoc.Writers.Muse,
+                   Text.Pandoc.Writers.CslJson,
                    Text.Pandoc.Writers.Math,
                    Text.Pandoc.Writers.Shared,
                    Text.Pandoc.Writers.OOXML,

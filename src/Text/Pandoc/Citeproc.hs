@@ -20,7 +20,7 @@ where
 import Citeproc as Citeproc
 import Citeproc.Pandoc ()
 import Text.Pandoc.Citeproc.Locator (parseLocator)
-import Text.Pandoc.Citeproc.CslJson (readCslJson)
+import Text.Pandoc.Citeproc.CslJson (cslJsonToReferences)
 import Text.Pandoc.Citeproc.Bibtex (readBibtexString, Variant(..))
 import Text.Pandoc.Citeproc.MetaValue (metaValueToReference, metaValueToText,
                                   metaValueToPath)
@@ -161,7 +161,7 @@ getRefs locale format idpred raw =
     Format_json ->
       either (throwError . PandocAppError . T.pack)
              (return . filter (idpred . unItemId . referenceId)) .
-        readCslJson $ raw
+        cslJsonToReferences $ raw
     Format_yaml -> do
       Pandoc meta _ <-
            readMarkdown
