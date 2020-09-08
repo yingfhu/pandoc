@@ -14,7 +14,7 @@
 --
 -----------------------------------------------------------------------------
 
-module Text.Pandoc.Citeproc.Bibtex
+module Text.Pandoc.Citeproc.BibTeX
     ( Variant(..)
     , readBibtexString
     )
@@ -22,8 +22,11 @@ module Text.Pandoc.Citeproc.Bibtex
 
 import Text.Pandoc.Definition
 import Text.Pandoc.Builder as B
-import Text.Pandoc (readLaTeX, Extension(..), extensionsFromList,
-                    ReaderOptions(..), runPure, PandocError)
+import Text.Pandoc.Readers.LaTeX (readLaTeX)
+import Text.Pandoc.Extensions (Extension(..), extensionsFromList)
+import Text.Pandoc.Options (ReaderOptions(..))
+import Text.Pandoc.Class (runPure)
+import Text.Pandoc.Error (PandocError)
 import Text.Pandoc.Shared (stringify)
 import qualified Text.Pandoc.Walk       as Walk
 import Citeproc.Types

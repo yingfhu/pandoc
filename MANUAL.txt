@@ -225,6 +225,8 @@ header when requesting a document from a URL:
 :   Specify input format.  *FORMAT* can be:
 
     ::: {#input-formats}
+    - `bibtex` ([BibTeX] bibliography)
+    - `biblatex` ([BibLaTeX] bibliography)
     - `commonmark` ([CommonMark] Markdown)
     - `commonmark_x` ([CommonMark] Markdown with extensions)
     - `creole` ([Creole 1.0])
@@ -494,6 +496,8 @@ header when requesting a document from a URL:
 [PowerPoint]: https://en.wikipedia.org/wiki/Microsoft_PowerPoint
 [Vimwiki]: https://vimwiki.github.io
 [CSL JSON]: https://citeproc-js.readthedocs.io/en/latest/csl-json/markup.html
+[BibTeX]: https://ctan.org/pkg/bibtex
+[BibLaTeX]: https://ctan.org/pkg/biblatex
 
 ## Reader options {.options}
 

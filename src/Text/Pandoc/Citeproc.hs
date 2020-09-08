@@ -21,7 +21,7 @@ import Citeproc as Citeproc
 import Citeproc.Pandoc ()
 import Text.Pandoc.Citeproc.Locator (parseLocator)
 import Text.Pandoc.Citeproc.CslJson (cslJsonToReferences)
-import Text.Pandoc.Citeproc.Bibtex (readBibtexString, Variant(..))
+import Text.Pandoc.Citeproc.BibTeX (readBibtexString, Variant(..))
 import Text.Pandoc.Citeproc.MetaValue (metaValueToReference, metaValueToText,
                                   metaValueToPath)
 import Data.ByteString (ByteString)
