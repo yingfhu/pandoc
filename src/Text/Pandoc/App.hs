@@ -165,7 +165,14 @@ convertWithOpts opts = do
     let writerName = outputWriterName outputSettings
     let writerOptions = outputWriterOptions outputSettings
 
-    let standalone = optStandalone opts || not (isTextFormat format) || pdfOutput
+    let bibOutput = writerName == "bibtex" ||
+                    writerName == "biblatex" ||
+                    writerName == "csljson"
+
+    let standalone = optStandalone opts ||
+                     not (isTextFormat format) ||
+                     pdfOutput ||
+                     bibOutput
 
     -- We don't want to send output to the terminal if the user
     -- does 'pandoc -t docx input.txt'; though we allow them to
