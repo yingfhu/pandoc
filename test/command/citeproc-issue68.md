@@ -19,7 +19,7 @@ references:
   publisher: Pontifical Institute of Mediaeval Studies
   publisher-place: Toronto
   source: toroprod.library.utoronto.ca Library Catalog
-  title: 'William de Montibus (c. 1140--1213): The Schools and the
+  title: 'William de Montibus (c. 1140--1213): The Schools and the
     Literature of Pastoral Care'
   title-short: William de Montibus
   type: book
@@ -38,14 +38,14 @@ citation.[^3]
 
 ::: {#refs .references .hanging-indent}
 ::: {#ref-goering:1992william}
-Goering, Joseph. *William de Montibus (c. 1140--1213): The Schools and
+Goering, Joseph. *William de Montibus (c. 1140--1213): The Schools and
 the Literature of Pastoral Care*. Studies and Texts 108. Toronto:
 Pontifical Institute of Mediaeval Studies, 1992.
 :::
 :::
 
-[^1]: The text of fol. 9r is printed in Joseph Goering, *William de
-    Montibus (c. 1140--1213): The Schools and the Literature of Pastoral
+[^1]: The text of fol. 9r is printed in Joseph Goering, *William de
+    Montibus (c. 1140--1213): The Schools and the Literature of Pastoral
     Care*, Studies and Texts 108 (Toronto: Pontifical Institute of
     Mediaeval Studies, 1992), 501--3.
 

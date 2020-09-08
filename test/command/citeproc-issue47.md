@@ -76,7 +76,7 @@ Expected output:
 
 > Doe, A. 2000a. Title.
 >
-> ---------, ed. 2000b. Title.
+> ---------, ed. 2000b. Title.
 >
 > Doe, A., A. Loe, and A. Toe. 2000. Title.
 >
