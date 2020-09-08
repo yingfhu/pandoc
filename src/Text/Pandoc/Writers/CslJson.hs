@@ -20,7 +20,7 @@ module Text.Pandoc.Writers.CslJson ( writeCslJson )
 where
 import Data.Text (Text)
 import qualified Data.Text as T
-import qualified Data.Text.Encoding as TE
+import qualified Text.Pandoc.UTF8 as UTF8
 import Text.Pandoc.Error
 import Text.Pandoc.Class
 import Control.Monad.Except (throwError)
@@ -47,7 +47,7 @@ writeCslJson _opts (Pandoc meta _) = do
                Left e  -> throwError $ PandocCiteprocError e
                Right l -> return l
   case lookupMeta "references" meta of
-    Just (MetaList rs) -> return $ TE.decodeUtf8 $
+    Just (MetaList rs) -> return $ UTF8.toText $
          toCslJson locale (mapMaybe metaValueToReference rs)
     _ -> throwError $ PandocAppError "No references field"
 

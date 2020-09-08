@@ -228,6 +228,7 @@ header when requesting a document from a URL:
     - `commonmark` ([CommonMark] Markdown)
     - `commonmark_x` ([CommonMark] Markdown with extensions)
     - `creole` ([Creole 1.0])
+    - `csljson` ([CSL JSON] bibliography)
     - `csv` ([CSV] table)
     - `docbook` ([DocBook])
     - `docx` ([Word docx])
