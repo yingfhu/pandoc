@@ -47,8 +47,8 @@ writeCslJson _opts (Pandoc meta _) = do
                Left e  -> throwError $ PandocCiteprocError e
                Right l -> return l
   case lookupMeta "references" meta of
-    Just (MetaList rs) -> return $ UTF8.toText $
-         toCslJson locale (mapMaybe metaValueToReference rs)
+    Just (MetaList rs) -> return $ (UTF8.toText $
+         toCslJson locale (mapMaybe metaValueToReference rs)) <> "\n"
     _ -> throwError $ PandocAppError "No references field"
 
 fromInlines :: [Inline] -> CslJson Text
