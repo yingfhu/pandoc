@@ -12,6 +12,8 @@ references:
 
 Test [@test, 12].
 
+Test [@test, 12].
+
 Test.^[asdfasdf]
 
 Test [@test, 12].
@@ -22,6 +24,8 @@ Test.[^2]
 
 Test.[^3]
 
+Test.[^4]
+
 ::: {#refs .references .hanging-indent}
 ::: {#ref-test}
 Doe, John. "Test," n.d.
@@ -30,7 +34,9 @@ Doe, John. "Test," n.d.
 
 [^1]: John Doe, "Test," n.d., 12.
 
-[^2]: asdfasdf
+[^2]: Ibid.
 
-[^3]: Doe, "Test," 12.
+[^3]: asdfasdf
+
+[^4]: Doe, "Test," 12.
 ```
