@@ -45,8 +45,8 @@ References {#references .unnumbered}
 
 [^2]: Some citations [see @item1 chap. 3; @пункт3; @item2].
 
-[^3]: Like a citation without author: [-@item1], and now Doe with a
-    locator [-@item2 p. 44].
+[^3]: Like a citation without author: [-@item1], and again
+    [-@item1], and now Doe with a locator [-@item2 p. 44].
 ^D
 [WARNING] Citeproc: citation nonexistent not found
 Pandoc with citeproc-hs
@@ -126,8 +126,9 @@ Sam Smith. Oxford: Oxford University Press, 2007.
 
 [^12]: [Doe, 2005](#ref-item1) and nowhere else.
 
-[^13]: Like a citation without author: ([Ibid.](#ref-item1)), and now
-    Doe with a locator ([2006, 44](#ref-item2)).
+[^13]: Like a citation without author: ([Ibid.](#ref-item1)), and again
+    ([Ibid.](#ref-item1)), and now Doe with a locator ([2006,
+    44](#ref-item2)).
 
 [^14]: *See* [Doe, 2005, 32](#ref-item1).
 ```
