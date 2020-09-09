@@ -203,8 +203,6 @@ extra-source-files:
                  -- tests
                  test/bodybg.gif
                  test/*.native
-                 test/bib2yaml/*.bibtex
-                 test/bib2yaml/*.biblatex
                  test/command/*.md
                  test/command/*.csl
                  test/command/biblio.bib
