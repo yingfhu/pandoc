@@ -209,8 +209,14 @@ getCitations locale otherIdsMap = Foldable.toList . query getCitation
  where
   getCitation (Cite cs _fallback) = Seq.singleton $
     Citeproc.Citation { Citeproc.citationId = Nothing
+                      , Citeproc.citationNoteNumber =
+                          case cs of
+                            []    -> Nothing
+                            (Pandoc.Citation{ Pandoc.citationNoteNum = n }:
+                               _) | n > 0     -> Just n
+                                  | otherwise -> Nothing
                       , Citeproc.citationItems =
-                          fromPandocCitations locale otherIdsMap cs
+                           fromPandocCitations locale otherIdsMap cs
                       }
   getCitation _ = mempty
 
