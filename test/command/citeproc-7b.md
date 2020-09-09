@@ -32,5 +32,5 @@ Test.[^4]
 
 [^3]: asdfasdf
 
-[^4]: Doe (cited n. 2) : 12.
+[^4]: Doe (cited n. 2) : 12.
 ```
