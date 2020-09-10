@@ -449,8 +449,6 @@ extractText (NumVal n)   = T.pack (show n)
 extractText _            = mempty
 
 deNote :: Inline -> Inline
-deNote (Note []) = Str ""
-deNote (Note [Para []]) = Str "" -- suppress empty notes
 deNote (Note bs) = Note $ walk go bs
  where
   go (Note bs')
