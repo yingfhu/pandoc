@@ -76,9 +76,6 @@ convertWithOpts opts = do
        mapM_ (UTF8.hPutStrLn stdout) (fromMaybe ["-"] $ optInputFiles opts)
        exitSuccess
 
-  let isPandocCiteproc (JSONFilter f) = takeBaseName f == "pandoc-citeproc"
-      isPandocCiteproc _              = False
-
   let sources = case optInputFiles opts of
                      Just xs | not (optIgnoreArgs opts) -> xs
                      _ -> ["-"]
@@ -273,9 +270,12 @@ convertWithOpts opts = do
 
     setNoCheckCertificate (optNoCheckCertificate opts)
 
+    let isPandocCiteproc (JSONFilter f) = takeBaseName f == "pandoc-citeproc"
+        isPandocCiteproc _              = False
+
     when (any isPandocCiteproc filters) $
       report $ Deprecated "pandoc-citeproc filter"
-               "Use built-in --citeproc option instead."
+               "Use --citeproc instead."
 
     doc <- sourceToDoc sources >>=
               (   (if isJust (optExtractMedia opts)
