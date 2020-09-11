@@ -1299,6 +1299,25 @@ header when requesting a document from a URL:
 
 ## Citation rendering {.options}
 
+`-C`, `--citeproc`
+
+:   Process the citations in the file, replacing them with
+    rendered citations and adding a bibliography.
+    Citation processing will not take place unless bibliographic
+    data is supplied, either through an external file specified
+    using the `--bibliography` option or the `bibliography`
+    field in metadata, or via a `references` section in metadata
+    containing a list of citations in CSL YAML format with
+    Markdown formatting.  The style is controlled by a [CSL]
+    stylesheet specified using the `--csl` option or the `csl`
+    field in metadata. (If no stylesheet is specified,
+    the `chicago-author-date` style will be used by default.)
+    The citation processing transformation may be applied before
+    or after filters or Lua filters (see `--filter`,
+    `--lua-filter`): these transformations are applied in the
+    order they appear on the command line.  For more
+    information, see the section on [Citations].
+
 `--bibliography=`*FILE*
 
 :   Set the `bibliography` field in the document's metadata to *FILE*,
@@ -4937,6 +4956,7 @@ BibLaTeX).
 
 For more information, see the [pandoc-citeproc man page].
 
+[CSL]: https://docs.citationstyles.org/en/stable/specification.html
 [CSL markup specs]: https://docs.citationstyles.org/en/1.0/release-notes.html#rich-text-markup-within-fields
 [Chicago Manual of Style]: https://chicagomanualofstyle.org
 [Citation Style Language]: https://citationstyles.org
