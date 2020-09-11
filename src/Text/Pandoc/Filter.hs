@@ -49,15 +49,19 @@ instance FromYAML Filter where
     ty <- m .: "type"
     fp <- m .: "path"
     case ty of
+      "citeproc" -> return CiteprocFilter
       "lua"  -> return $ LuaFilter $ T.unpack fp
       "json" -> return $ JSONFilter $ T.unpack fp
       _      -> fail $ "Unknown filter type " ++ show (ty :: T.Text)) node
   <|>
   (withStr "Filter" $ \t -> do
     let fp = T.unpack t
-    case takeExtension fp of
-      ".lua"  -> return $ LuaFilter fp
-      _       -> return $ JSONFilter fp) node
+    if fp == "citeproc"
+       then return CiteprocFilter
+       else return $
+         case takeExtension fp of
+           ".lua"  -> LuaFilter fp
+           _       -> JSONFilter fp) node
 
 -- | Modify the given document using a filter.
 applyFilters :: ReaderOptions
