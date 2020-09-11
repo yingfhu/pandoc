@@ -64,7 +64,7 @@ references:
     useeditor option in the options field as well as the sorttitle
     field. We want this entry to be cited and alphabetized by title even
     though there is an editor. In addition to that, we want the title to
-    be alphabetized under ''E'' rather than ''T.'' Also note the label field
+    be alphabetized under ''E'' rather than ''T''. Also note the label field
     which is provided for author-year citation styles'
   edition: 15
   editor:

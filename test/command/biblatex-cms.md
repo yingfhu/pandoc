@@ -63,7 +63,7 @@ references:
     citation styles. Also note the sorttitle and indextitle fields. By
     default, all entries without an author or editor are alphabetized by
     title but we want this entry to be alphabetized under ''C'' rather
-    than ''T.'' There''s also an isbn field'
+    than ''T''. There''s also an isbn field'
   edition: 15
   id: cms
   isbn: '0-226-10403-6'
