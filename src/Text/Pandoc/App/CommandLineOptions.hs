@@ -453,6 +453,12 @@ options =
                   "SCRIPTPATH")
                  "" -- "Lua filter"
 
+    , Option "C" ["citeproc"]
+                 (NoArg
+                  (\opt -> return opt { optFilters =
+                      optFilters opt ++ [CiteprocFilter] }))
+                 "" -- "Process citations"
+
     , Option "" ["shift-heading-level-by"]
                  (ReqArg
                   (\arg opt ->
