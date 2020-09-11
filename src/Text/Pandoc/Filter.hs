@@ -26,6 +26,7 @@ import Text.Pandoc.Class.PandocMonad (report, getVerbosity)
 import Text.Pandoc.Definition (Pandoc)
 import Text.Pandoc.Options (ReaderOptions)
 import Text.Pandoc.Logging
+import Text.Pandoc.Citeproc (processCitations)
 import qualified Text.Pandoc.Filter.JSON as JSONFilter
 import qualified Text.Pandoc.Filter.Lua as LuaFilter
 import qualified Text.Pandoc.Filter.Path as Path
@@ -39,6 +40,7 @@ import Control.Monad (foldM, when)
 -- | Type of filter and path to filter file.
 data Filter = LuaFilter FilePath
             | JSONFilter FilePath
+            | CiteprocFilter -- built-in citeproc
             deriving (Show, Generic)
 
 instance FromYAML Filter where
@@ -71,6 +73,8 @@ applyFilters ropts filters args d = do
     withMessages f $ JSONFilter.apply ropts args f doc
   applyFilter doc (LuaFilter f)  =
     withMessages f $ LuaFilter.apply ropts args f doc
+  applyFilter doc CiteprocFilter =
+    processCitations doc
   withMessages f action = do
     verbosity <- getVerbosity
     when (verbosity == INFO) $ report $ RunningFilter f
@@ -85,5 +89,6 @@ applyFilters ropts filters args d = do
 expandFilterPath :: Filter -> PandocIO Filter
 expandFilterPath (LuaFilter fp) = LuaFilter <$> Path.expandFilterPath fp
 expandFilterPath (JSONFilter fp) = JSONFilter <$> Path.expandFilterPath fp
+expandFilterPath CiteprocFilter = return CiteprocFilter
 
 $(deriveJSON defaultOptions ''Filter)
