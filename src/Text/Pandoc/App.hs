@@ -50,7 +50,6 @@ import Text.Pandoc.App.Opt (Opt (..), LineEnding (..), defaultOpts,
 import Text.Pandoc.App.CommandLineOptions (parseOptions, options)
 import Text.Pandoc.App.OutputSettings (OutputSettings (..), optToOutputSettings)
 import Text.Pandoc.BCP47 (Lang (..), parseBCP47)
-import Text.Pandoc.Citeproc (processCitations)
 import Text.Pandoc.Builder (setMeta)
 import Text.Pandoc.Filter (Filter (JSONFilter, LuaFilter), applyFilters)
 import Text.Pandoc.PDF (makePDF)
@@ -274,6 +273,10 @@ convertWithOpts opts = do
 
     setNoCheckCertificate (optNoCheckCertificate opts)
 
+    when (any isPandocCiteproc filters) $
+      report $ Deprecated "pandoc-citeproc filter"
+               "Use built-in --citeproc option instead."
+
     doc <- sourceToDoc sources >>=
               (   (if isJust (optExtractMedia opts)
                       then fillMediaBag
@@ -281,9 +284,6 @@ convertWithOpts opts = do
               >=> return . adjustMetadata (metadataFromFile <>)
               >=> return . adjustMetadata (<> metadata)
               >=> applyTransforms transforms
-              >=> (if not (any isPandocCiteproc filters)
-                      then processCitations
-                      else return)
               >=> applyFilters readerOpts filters [T.unpack format]
               >=> maybe return extractMedia (optExtractMedia opts)
               )
