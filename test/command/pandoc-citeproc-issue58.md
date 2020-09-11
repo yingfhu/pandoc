@@ -1,5 +1,5 @@
 ```
-% pandoc -t markdown-citations
+% pandoc --citeproc -t markdown-citations
 ---
 csl: command/issue58.csl
 references:

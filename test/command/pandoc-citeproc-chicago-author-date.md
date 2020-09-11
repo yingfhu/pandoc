@@ -1,5 +1,5 @@
 ```
-% pandoc -t markdown-citations
+% pandoc --citeproc -t markdown-citations
 ---
 bibliography: command/biblio.bib
 link-citations: true

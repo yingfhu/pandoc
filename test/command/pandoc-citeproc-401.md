@@ -1,5 +1,5 @@
 ```
-% pandoc -t markdown-citations
+% pandoc --citeproc -t markdown-citations
 ---
 references:
 - id: haslanger2012SocialConstructionDebunking

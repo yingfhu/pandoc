@@ -1,5 +1,5 @@
 ```
-% pandoc -t markdown-citations
+% pandoc --citeproc -t markdown-citations
 ---
 csl: 'command/chicago-fullnote-bibliography.csl'
 references:

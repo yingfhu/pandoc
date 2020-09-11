@@ -1,5 +1,5 @@
 ```
-% pandoc -t markdown-citations
+% pandoc --citeproc -t markdown-citations
 Blah blah [@item1; @item2; @item3].
 
 # References {-}
