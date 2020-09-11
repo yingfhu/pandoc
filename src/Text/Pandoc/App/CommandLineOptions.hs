@@ -453,12 +453,6 @@ options =
                   "SCRIPTPATH")
                  "" -- "Lua filter"
 
-    , Option "C" ["citeproc"]
-                 (NoArg
-                  (\opt -> return opt { optFilters =
-                      optFilters opt ++ [CiteprocFilter] }))
-                 "" -- "Process citations"
-
     , Option "" ["shift-heading-level-by"]
                  (ReqArg
                   (\arg opt ->
@@ -652,6 +646,12 @@ options =
                              "ipynb-output must be all, none, or best")
                  "all|none|best")
                  "" -- "Starting number for sections, subsections, etc."
+
+    , Option "C" ["citeproc"]
+                 (NoArg
+                  (\opt -> return opt { optFilters =
+                      optFilters opt ++ [CiteprocFilter] }))
+                 "" -- "Process citations"
 
     , Option "" ["bibliography"]
                  (ReqArg
