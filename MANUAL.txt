@@ -1330,8 +1330,8 @@ header when requesting a document from a URL:
 :   Set the `csl` field in the document's metadata to *FILE*,
     overriding any value set in the metadata.  (This is equivalent to
     `--metadata csl=FILE`.)
-    TODO: see the pandoc-citeproc manual page under csl for
-    more info on how this was done.
+    <!-- TODO: see the pandoc-citeproc manual page under csl for
+    more info on how this was done. -->
 
 `--citation-abbreviations=`*FILE*
 
@@ -4752,19 +4752,27 @@ Inline and regular footnotes may be mixed freely.
 
 ## Citations
 
-#### Extension: `citations` ####
+<!-- TODO move this to a section of its own;
+just leave the citation syntax documented here. -->
 
 When the `--citeproc` option is used, pandoc can automatically generate
 citations and a bibliography in a number of styles.  Basic usage is
 
     pandoc --citeproc myinput.txt
 
-In order to use this feature, you will need to specify a bibliography file
-using the `bibliography` metadata field in a YAML metadata section, or
-`--bibliography` command line argument. You can supply multiple `--bibliography`
-arguments or set `bibliography` metadata field to YAML array, if you want to
-use multiple bibliography files.  The bibliography may have any of these
-formats:
+To use this feature, you will need to have
+
+- a document containing citations (see [Extension: `citations`], below;
+- a source of bibliographic data: either an external bibliography
+  file or a list of `references` in the document's YAML metadata
+- optionally, a [CSL] citation style.
+
+You can specify an external bibliography using the
+`bibliography` metadata field in a YAML metadata section or the
+`--bibliography` command line argument. If you want to use
+multiple bibliography files, you can supply multiple
+`--bibliography` arguments or set `bibliography` metadata field
+to YAML array.  A bibliography may have any of these formats:
 
   Format            File extension
   ------------      --------------
@@ -4774,16 +4782,11 @@ formats:
   CSL YAML          .yaml
 
 Note that `.bib` can be used with both BibTeX and BibLaTeX files;
-use `.bibtex` to force BibTeX.
+use the extension `.bibtex` to force interpretation as BibTeX.
 
-Note that `pandoc` can be used to produce `.json` and `.yaml`
-bibliographies from any of these formats (use `-t csljson -s` or
-`-t markdown -s`, respectively).
-
-In-field markup: In BibTeX and BibLaTeX databases,
-pandoc-citeproc parses a subset of LaTeX markup; in CSL YAML
-databases, pandoc Markdown; and in CSL JSON databases, an
-[HTML-like markup][CSL markup specs]:
+In-field markup: In BibTeX and BibLaTeX databases, pandoc parses
+LaTeX markup; in CSL YAML databases, pandoc Markdown; and in CSL
+JSON databases, an [HTML-like markup][CSL markup specs]:
 
 `<i>...</i>`
 :   italics
@@ -4802,9 +4805,6 @@ databases, pandoc Markdown; and in CSL JSON databases, an
 
 `<span class="nocase">...</span>`
 :   prevent a phrase from being capitalized as title case
-
-`pandoc-citeproc -j` and `-y` interconvert the CSL JSON
-and CSL YAML formats as far as possible.
 
 As an alternative to specifying a bibliography file using `--bibliography`
 or the YAML metadata field `bibliography`, you can include
@@ -4826,8 +4826,8 @@ YAML-encoded references, for example:
         - - 1953
           - 4
           - 25
-      title: 'Molecular structure of nucleic acids: a structure for deoxyribose
-        nucleic acid'
+      title: 'Molecular structure of nucleic acids: a structure for
+        deoxyribose nucleic acid'
       title-short: Molecular structure of nucleic acids
       container-title: Nature
       volume: 171
@@ -4838,25 +4838,58 @@ YAML-encoded references, for example:
       language: en-GB
     ...
 
-(`pandoc-citeproc --bib2yaml` can produce these from a bibliography file in one
-of the supported formats.)
+Note that `pandoc` can be used to produce such a YAML metadata
+section from a BibTeX, BibLaTeX, or CSL JSON bibliography:
+
+    pandoc chem.bib -s -t markdown
+    pandoc chem.json -s -t markdown
+
+<!-- TODO note on citation-abbreviations -->
 
 Citations and references can be formatted using any style supported by the
 [Citation Style Language], listed in the [Zotero Style Repository].
-These files are specified using the `--csl` option or the `csl` metadata field.
-By default, pandoc will use the [Chicago Manual of Style] author-date
-format.  The CSL project provides further information on [finding and editing styles].
+These files are specified using the `--csl` option or the `csl`
+metadata field.  By default, pandoc will use the [Chicago Manual
+of Style] author-date format.  The CSL project provides further
+information on [finding and editing styles].
 
-To make your citations hyperlinks to the corresponding bibliography
-entries, add `link-citations: true` to your YAML metadata.
-(This only affects author-date and numerical styles.)
+A few other metadata fields affect bibliography formatting:
 
-Citations go inside square brackets and are separated by semicolons.
-Each citation must have a key, composed of '@' + the citation
-identifier from the database, and may optionally have a prefix,
-a locator, and a suffix.  The citation key must begin with a letter, digit,
-or `_`, and may contain alphanumerics, `_`, and internal punctuation
-characters (`:.#$%&-+?<>~/`).  Here are some examples:
+`link-citation`
+:   If true, citations will be
+    hyperlinked to the corresponding bibliography entries
+    (for author-date and numerical styles only).
+
+`lang`
+:   The `lang` field will affect how the style is localized,
+    for example in the translation of labels and the use
+    of quotation marks.
+
+  <!-- (should we allow 'locale' also for backwards-compat?
+  as p-c did) -->
+
+`notes-after-punctuation`
+:    If true (the default), pandoc will put footnote citations
+     after following punctuation.  For example, if the source
+     contains `blah blah [@jones99].`, the result will look like
+     `blah blah.[^1]`, with the note moved after the period and
+     the space collapsed.  If false, the space will still be
+     collapsed, but the footnote will not be moved after the
+     punctuation.
+
+
+<!-- TODO more -->
+
+
+#### Extension: `citations` ####
+
+Markdown citations go inside square brackets and are separated
+by semicolons.  Each citation must have a key, composed of '@' +
+the citation identifier from the database, and may optionally
+have a prefix, a locator, and a suffix.  The citation key must
+begin with a letter, digit, or `_`, and may contain
+alphanumerics, `_`, and internal punctuation characters
+(`:.#$%&-+?<>~/`).  Here are some examples:
 
     Blah blah [see @doe99, pp. 33-35; also @smith04, chap. 1].
 
@@ -4951,21 +4984,6 @@ For more information, see the [pandoc-citeproc man page].
 
 <!--TODO - INCORPORATE INFO FROM THIS PAGE THAT IS NOT ALREADY
 HERE:
-
-- lang will localize; otherwise the default-locale
-  attribute of CSL file will be used (or en-US if not set)
-  (should we allow 'locale' also for backwards-compat?
-  as p-c did)
-- notes-after-punctuation:  not described above. (are we
-  sensitive to it?)
-`notes-after-punctuation`
-:    If true (the default), pandoc will put footnote citations
-     after following punctuation.  For example, if the source
-     contains `blah blah [@jones99].`, the result will look like
-     `blah blah.[^1]`, with the note moved after the period and
-     the space collapsed.  If false, the space will still be
-     collapsed, but the footnote will not be moved after the
-     punctuation.
 
 ## Raw content (pandoc-citeproc only) - is this still
 supported by citeproc? I think we need it for JATS.
