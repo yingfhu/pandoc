@@ -1329,9 +1329,21 @@ header when requesting a document from a URL:
 
 :   Set the `csl` field in the document's metadata to *FILE*,
     overriding any value set in the metadata.  (This is equivalent to
-    `--metadata csl=FILE`.)
+    `--metadata csl=FILE`.)  If *FILE* is a URL, it will be
+    fetched via HTTP.  If *FILE* is not found relative to the
+    working directory, it will be sought in the
+
     <!-- TODO: see the pandoc-citeproc manual page under csl for
-    more info on how this was done. -->
+    more info on how this was done.
+    csl or citation-style:   Path or URL of a CSL style file.
+    If the file is not found relative to the working directory,
+    pandoc-citeproc will look in the `$HOME/.csl` directory (or
+    `C:\Users\USERNAME\AppData\Roaming\csl` in Windows 7).  If this is left
+    off, pandoc-citeproc will look for `$HOME/.pandoc/default.csl`,
+    and if this is not present, it will use
+    `chicago-author-date.csl`, looking first in `$HOME/.csl` and
+    then in its own data files.
+    -->
 
 `--citation-abbreviations=`*FILE*
 
@@ -1340,7 +1352,13 @@ header when requesting a document from a URL:
     `--metadata citation-abbreviations=FILE`.)
     <!-- TODO see pandoc-citeproc man page for more on previous
     behavior of this.  Should the format be described below
-    under Citations? -->
+    under Citations?
+    `citation-abbreviations`
+    :   Path to a CSL abbreviations JSON file.  If the file is not found
+    relative to the working directory, pandoc-citeproc will look in the
+    `$HOME/.csl` directory (or `C:\Users\USERNAME\AppData\Roaming\csl`
+    in Windows 7).
+    -->
 
 `--natbib`
 
@@ -5187,9 +5205,10 @@ for an unpublished conference paper.
 Citations and references can be formatted using any style supported by the
 [Citation Style Language], listed in the [Zotero Style Repository].
 These files are specified using the `--csl` option or the `csl`
-metadata field.  By default, pandoc will use the [Chicago Manual
-of Style] author-date format.  The CSL project provides further
-information on [finding and editing styles].
+(or `citation-style`) metadata field.  By default, pandoc will
+use the [Chicago Manual of Style] author-date format.  The CSL
+project provides further information on [finding and editing
+styles].
 
 The `--citation-abbreviations` option (or the
 `citation-abbreviations` metadata field) may be used to

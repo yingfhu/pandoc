@@ -58,9 +58,15 @@ processCitations (Pandoc meta bs)
 processCitations (Pandoc meta bs) = do
   let cslfile = (lookupMeta "csl" meta <|> lookupMeta "citation-style" meta)
                 >>= metaValueToPath
-  cslContents <- maybe (readDataFile "citeproc/chicago-author-date.csl")
-                       readFileStrict cslfile
 
+  let getCslFile fp = readFileStrict fp -- TODO URLs etc.
+
+  let getCslDefault = readDataFile "default.csl"
+
+  cslContents <- maybe getCslDefault getCslFile cslfile
+
+
+  -- TODO default.csl
   let getParentStyle url = do
          (raw, _) <- openURL url
          return $ TE.decodeUtf8 raw

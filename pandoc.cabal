@@ -181,7 +181,7 @@ data-files:
                  -- jats csl
                  data/jats.csl
                  -- citeproc
-                 data/citeproc/chicago-author-date.csl
+                 data/default.csl
                  citeproc/biblatex-localization/*.lbx.strings
                  -- documentation
                  MANUAL.txt, COPYRIGHT
