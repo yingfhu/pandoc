@@ -71,7 +71,8 @@ processCitations (Pandoc meta bs) = do
     case styleRes of
        Left err    -> throwError $ PandocAppError $ prettyCiteprocError err
        Right style -> return style
-  let mblang = parseLang <$> (lookupMeta "lang" meta >>= metaValueToText)
+  let mblang = parseLang <$>
+         ((lookupMeta "lang" meta <|> lookupMeta "locale" meta) >>= metaValueToText)
   let locale = Citeproc.mergeLocales mblang style
   let getCiteId (Cite cs _) = Set.fromList $ map B.citationId cs
       getCiteId _ = mempty
