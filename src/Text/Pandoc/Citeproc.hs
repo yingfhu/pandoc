@@ -59,7 +59,8 @@ processCitations (Pandoc meta bs) = do
                 >>= metaValueToText
 
   let getFile fp = catchError (fst <$> fetchItem fp)
-                      (\e -> catchError (readDataFile (T.unpack fp))
+                      (\e -> catchError (readDataFile
+                                         (T.unpack $ "csl/" <> fp))
                                (\_ -> throwError e))
 
   let getCslDefault = readDataFile "default.csl"
