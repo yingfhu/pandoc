@@ -9,7 +9,7 @@ extra-deps:
 - git: https://github.com/jgm/pandoc-types
   commit: 8e9ca37802120f32ececac752d73463e2fc86811
 - git: https://github.com/jgm/citeproc
-  commit: fdbba4e07a494714d047f06d0b30793c7bfbf17c
+  commit: f6e4d13c82e516b3666f08d6344f8e7a487be602
 - rfc5051-0.2
 - texmath-0.12.0.2
 - haddock-library-1.9.0
