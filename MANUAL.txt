@@ -1321,38 +1321,37 @@ header when requesting a document from a URL:
 `--bibliography=`*FILE*
 
 :   Set the `bibliography` field in the document's metadata to *FILE*,
-    overriding any value set in the metadata, and process citations
-    using `pandoc-citeproc`. (This is equivalent to
-    `--metadata bibliography=FILE --filter pandoc-citeproc`.)
-    If `--natbib` or `--biblatex` is also supplied, `pandoc-citeproc` is not
-    used, making this equivalent to `--metadata bibliography=FILE`.
-    If you supply this argument multiple times, each *FILE* will be added
-    to bibliography.
+    overriding any value set in the metadata.  If you supply
+    this argument multiple times, each *FILE* will be added to
+    bibliography.
 
 `--csl=`*FILE*
 
 :   Set the `csl` field in the document's metadata to *FILE*,
     overriding any value set in the metadata.  (This is equivalent to
     `--metadata csl=FILE`.)
-    This option is only relevant with `pandoc-citeproc`.
+    TODO: see the pandoc-citeproc manual page under csl for
+    more info on how this was done.
 
 `--citation-abbreviations=`*FILE*
 
 :   Set the `citation-abbreviations` field in the document's metadata to
     *FILE*, overriding any value set in the metadata.  (This is equivalent to
     `--metadata citation-abbreviations=FILE`.)
-    This option is only relevant with `pandoc-citeproc`.
+    <!-- TODO see pandoc-citeproc man page for more on previous
+    behavior of this.  Should the format be described below
+    under Citations? -->
 
 `--natbib`
 
 :   Use [`natbib`] for citations in LaTeX output.  This option is not for use
-    with the `pandoc-citeproc` filter or with PDF output.  It is intended for
+    with the `--citeproc` option or with PDF output.  It is intended for
     use in producing a LaTeX file that can be processed with [`bibtex`].
 
 `--biblatex`
 
 :   Use [`biblatex`] for citations in LaTeX output.  This option is not for use
-    with the `pandoc-citeproc` filter or with PDF output. It is intended for
+    with the `--citeproc` option or with PDF output. It is intended for
     use in producing a LaTeX file that can be processed with [`bibtex`] or [`biber`].
 
 ## Math rendering in HTML {.options}
@@ -1523,7 +1522,6 @@ resource-path: ["."]
 # the .lua extension, and json filters otherwise.  But
 # the filter type can also be specified explicitly, as shown:
 filters:
-- pandoc-citeproc
 - wordcount.lua
 - type: json
   path: foo.lua
@@ -4756,10 +4754,10 @@ Inline and regular footnotes may be mixed freely.
 
 #### Extension: `citations` ####
 
-Using an external filter, `pandoc-citeproc`, pandoc can automatically generate
+When the `--citeproc` option is used, pandoc can automatically generate
 citations and a bibliography in a number of styles.  Basic usage is
 
-    pandoc --filter pandoc-citeproc myinput.txt
+    pandoc --citeproc myinput.txt
 
 In order to use this feature, you will need to specify a bibliography file
 using the `bibliography` metadata field in a YAML metadata section, or
@@ -4772,21 +4770,15 @@ formats:
   ------------      --------------
   BibLaTeX          .bib
   BibTeX            .bibtex
-  Copac             .copac
   CSL JSON          .json
   CSL YAML          .yaml
-  EndNote           .enl
-  EndNote XML       .xml
-  ISI               .wos
-  MEDLINE           .medline
-  MODS              .mods
-  RIS               .ris
 
 Note that `.bib` can be used with both BibTeX and BibLaTeX files;
 use `.bibtex` to force BibTeX.
 
-Note that `pandoc-citeproc --bib2json` and `pandoc-citeproc --bib2yaml`
-can produce `.json` and `.yaml` files from any of the supported formats.
+Note that `pandoc` can be used to produce `.json` and `.yaml`
+bibliographies from any of these formats (use `-t csljson -s` or
+`-t markdown -s`, respectively).
 
 In-field markup: In BibTeX and BibLaTeX databases,
 pandoc-citeproc parses a subset of LaTeX markup; in CSL YAML
@@ -4852,11 +4844,12 @@ of the supported formats.)
 Citations and references can be formatted using any style supported by the
 [Citation Style Language], listed in the [Zotero Style Repository].
 These files are specified using the `--csl` option or the `csl` metadata field.
-By default, `pandoc-citeproc` will use the [Chicago Manual of Style] author-date
+By default, pandoc will use the [Chicago Manual of Style] author-date
 format.  The CSL project provides further information on [finding and editing styles].
 
 To make your citations hyperlinks to the corresponding bibliography
 entries, add `link-citations: true` to your YAML metadata.
+(This only affects author-date and numerical styles.)
 
 Citations go inside square brackets and are separated by semicolons.
 Each citation must have a key, composed of '@' + the citation
@@ -4951,10 +4944,121 @@ For LaTeX output, you can also use [`natbib`] or [`biblatex`] to
 render the bibliography. In order to do so, specify bibliography
 files as outlined above, and add `--natbib` or `--biblatex`
 argument to `pandoc` invocation. Bear in mind that bibliography
-files have to be in respective format (either BibTeX or
-BibLaTeX).
+files have to be in either BibTeX (for `--natbib`)
+or BibLaTeX (for `--biblatex`) format.
 
 For more information, see the [pandoc-citeproc man page].
+
+<!--TODO - INCORPORATE INFO FROM THIS PAGE THAT IS NOT ALREADY
+HERE:
+
+- lang will localize; otherwise the default-locale
+  attribute of CSL file will be used (or en-US if not set)
+  (should we allow 'locale' also for backwards-compat?
+  as p-c did)
+- notes-after-punctuation:  not described above. (are we
+  sensitive to it?)
+`notes-after-punctuation`
+:    If true (the default), pandoc will put footnote citations
+     after following punctuation.  For example, if the source
+     contains `blah blah [@jones99].`, the result will look like
+     `blah blah.[^1]`, with the note moved after the period and
+     the space collapsed.  If false, the space will still be
+     collapsed, but the footnote will not be moved after the
+     punctuation.
+
+## Raw content (pandoc-citeproc only) - is this still
+supported by citeproc? I think we need it for JATS.
+
+To include raw content in a prefix, suffix, delimiter, or term,
+surround it with these tags indicating the format:
+
+    {{jats}}&lt;ref&gt;{{/jats}}
+
+Without the tags, the string will be interpreted as a string
+and escaped in the output, rather than being passed through raw.
+
+This feature allows stylesheets to be customized to give
+different output for different output formats.  However,
+stylesheets customized in this way will not be useable
+by other CSL implementations.
+
+# NOTES
+
+## General
+
+If you use a biblatex database, closely follow the specifications in the
+"Database Guide" section of the biblatex manual (currently 2.8a).
+
+If you use a CSL-YAML or CSL-JSON database, or a CSL-YAML metadata section in
+your markdown document, follow the "Citation Style Language 1.0.1 Language
+Specification" (<http://citationstyles.org/downloads/specification.html>).
+Particularly relevant are
+<http://citationstyles.org/downloads/specification.html#appendix-iii-types>
+(which neither comments on usage nor specifies required and optional fields) and
+<http://citationstyles.org/downloads/specification.html#appendix-iv-variables>
+(which does contain comments).
+
+## Titles: Title vs. Sentence Case
+
+If you are using a bibtex or biblatex bibliography, then observe
+the following rules:
+
+  - English titles should be in title case.  Non-English titles should
+    be in sentence case, and the `langid` field in biblatex should be
+    set to the relevant language.  (The following values are treated
+    as English:  `american`, `british`, `canadian`, `english`,
+    `australian`, `newzealand`, `USenglish`, or `UKenglish`.)
+
+  - As is standard with bibtex/biblatex, proper names should be
+    protected with curly braces so that they won't be lowercased
+    in styles that call for sentence case.  For example:
+
+        title = {My Dinner with {Andre}}
+
+  - In addition, words that should remain lowercase (or camelCase)
+    should be protected:
+
+        title = {Spin Wave Dispersion on the {nm} Scale}
+
+    Though this is not necessary in bibtex/biblatex, it is necessary
+    with citeproc, which stores titles internally in sentence case,
+    and converts to title case in styles that require it.  Here we
+    protect "nm" so that it doesn't get converted to "Nm" at this stage.
+
+If you are using a CSL bibliography (either JSON or YAML), then observe
+the following rules:
+
+  - All titles should be in sentence case.
+
+  - Use the `language` field for non-English titles to prevent their
+    conversion to title case in styles that call for this. (Conversion
+    happens only if `language` begins with `en` or is left empty.)
+
+  - Protect words that should not be converted to title case using
+    this syntax:
+
+        Spin wave dispersion on the <span class="nocase">nm</span> scale
+
+## Conference Papers, Published vs. Unpublished
+
+For a formally published conference paper, use the biblatex entry type
+`inproceedings` (which will be mapped to CSL `paper-conference`).
+
+For an unpublished manuscript, use the biblatex entry type `unpublished`
+without an `eventtitle` field (this entry type will be mapped to CSL
+`manuscript`).
+
+For a talk, an unpublished conference paper, or a poster presentation, use the
+biblatex entry type `unpublished` with an `eventtitle` field (this entry type
+will be mapped to CSL `speech`). Use the biblatex `type` field to indicate the
+type, e.g. "Paper", or "Poster". `venue` and `eventdate` may be useful too,
+though `eventdate` will not be rendered by most CSL styles. Note that `venue`
+is for the event's venue, unlike `location` which describes the publisher's
+location; do not use the latter for an unpublished conference paper.
+
+
+-->
 
 [CSL]: https://docs.citationstyles.org/en/stable/specification.html
 [CSL markup specs]: https://docs.citationstyles.org/en/1.0/release-notes.html#rich-text-markup-within-fields
@@ -4963,7 +5067,6 @@ For more information, see the [pandoc-citeproc man page].
 [Zotero Style Repository]: https://www.zotero.org/styles
 [finding and editing styles]: https://citationstyles.org/authors/
 [CSL locale files]: https://github.com/citation-style-language/locales
-[pandoc-citeproc man page]: https://github.com/jgm/pandoc-citeproc/blob/master/man/pandoc-citeproc.1.md
 
 ## Non-pandoc extensions
 
