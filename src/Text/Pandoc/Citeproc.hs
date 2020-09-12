@@ -22,16 +22,16 @@ import Citeproc.Pandoc ()
 import Text.Pandoc.Citeproc.Locator (parseLocator)
 import Text.Pandoc.Citeproc.CslJson (cslJsonToReferences)
 import Text.Pandoc.Citeproc.BibTeX (readBibtexString, Variant(..))
-import Text.Pandoc.Citeproc.MetaValue (metaValueToReference, metaValueToText,
-                                  metaValueToPath)
+import Text.Pandoc.Citeproc.MetaValue (metaValueToReference, metaValueToText)
 import Data.ByteString (ByteString)
 import Text.Pandoc.Definition as Pandoc
 import Text.Pandoc.Walk
 import Text.Pandoc.Builder as B
 import Text.Pandoc (PandocMonad(..), PandocError(..), readMarkdown,
                     readDataFile, ReaderOptions(..), pandocExtensions,
-                    report, LogMessage(..) )
+                    report, LogMessage(..), fetchItem)
 import Text.Pandoc.Shared (stringify, ordNub, blocksToInlines)
+import qualified Text.Pandoc.UTF8 as UTF8
 import Data.Default
 import Data.Ord ()
 import qualified Data.Map as M
@@ -39,7 +39,6 @@ import qualified Data.Set as Set
 import Data.Char (isPunctuation)
 import Data.Text (Text)
 import qualified Data.Text as T
-import qualified Data.Text.Encoding as TE
 import Control.Monad.Trans.State
 import qualified Data.Sequence as Seq
 import qualified Data.Foldable as Foldable
@@ -57,22 +56,22 @@ processCitations (Pandoc meta bs)
   , isNothing (lookupMeta "references" meta) = return $ Pandoc meta bs
 processCitations (Pandoc meta bs) = do
   let cslfile = (lookupMeta "csl" meta <|> lookupMeta "citation-style" meta)
-                >>= metaValueToPath
+                >>= metaValueToText
 
-  let getCslFile fp = readFileStrict fp -- TODO URLs etc.
+  let getFile fp = catchError (fst <$> fetchItem fp)
+                      (\e -> throwError e) -- TODO look in the csl xdg data dir
 
   let getCslDefault = readDataFile "default.csl"
 
-  cslContents <- maybe getCslDefault getCslFile cslfile
+  cslContents <- UTF8.toText <$> maybe getCslDefault getFile cslfile
 
 
-  -- TODO default.csl
-  let getParentStyle url = do
-         (raw, _) <- openURL url
-         return $ TE.decodeUtf8 raw
+  -- TODO handle abbreviation files; use getFile for this too
+
+  let getParentStyle url = UTF8.toText . fst <$> fetchItem url
 
   -- TODO check .csl directory if not found
-  styleRes <- Citeproc.parseStyle getParentStyle (TE.decodeUtf8 cslContents)
+  styleRes <- Citeproc.parseStyle getParentStyle cslContents
   style <-
     case styleRes of
        Left err    -> throwError $ PandocAppError $ prettyCiteprocError err
@@ -161,10 +160,10 @@ getRefs locale format idpred raw =
   case format of
     Format_bibtex ->
       either (throwError . PandocAppError . T.pack . show) return .
-        readBibtexString Bibtex locale idpred . TE.decodeUtf8 $ raw
+        readBibtexString Bibtex locale idpred . UTF8.toText $ raw
     Format_biblatex ->
       either (throwError . PandocAppError . T.pack . show) return .
-        readBibtexString Biblatex locale idpred . TE.decodeUtf8 $ raw
+        readBibtexString Biblatex locale idpred . UTF8.toText $ raw
     Format_json ->
       either (throwError . PandocAppError . T.pack)
              (return . filter (idpred . unItemId . referenceId)) .
@@ -173,7 +172,7 @@ getRefs locale format idpred raw =
       Pandoc meta _ <-
            readMarkdown
              def{ readerExtensions = pandocExtensions }
-             (TE.decodeUtf8 raw)
+             (UTF8.toText raw)
       case lookupMeta "references" meta of
           Just (MetaList rs) ->
                return $ filter (idpred . unItemId . referenceId)
