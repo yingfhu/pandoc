@@ -69,6 +69,7 @@ processCitations (Pandoc meta bs) = do
 
 
   -- TODO handle abbreviation files; use getFile for this too
+  --  Need support in citeproc first
 
   let getParentStyle url = UTF8.toText . fst <$> fetchItem url
 
