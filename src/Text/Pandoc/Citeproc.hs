@@ -24,6 +24,7 @@ import Text.Pandoc.Citeproc.CslJson (cslJsonToReferences)
 import Text.Pandoc.Citeproc.BibTeX (readBibtexString, Variant(..))
 import Text.Pandoc.Citeproc.MetaValue (metaValueToReference, metaValueToText)
 import Data.ByteString (ByteString)
+import qualified Data.ByteString.Lazy as L
 import Text.Pandoc.Definition as Pandoc
 import Text.Pandoc.Walk
 import Text.Pandoc.Builder as B
@@ -32,6 +33,7 @@ import Text.Pandoc (PandocMonad(..), PandocError(..), readMarkdown,
                     report, LogMessage(..), fetchItem)
 import Text.Pandoc.Shared (stringify, ordNub, blocksToInlines)
 import qualified Text.Pandoc.UTF8 as UTF8
+import Data.Aeson (eitherDecode)
 import Data.Default
 import Data.Ord ()
 import qualified Data.Map as M
@@ -67,9 +69,18 @@ processCitations (Pandoc meta bs) = do
 
   cslContents <- UTF8.toText <$> maybe getCslDefault getFile cslfile
 
+  let abbrevFile = lookupMeta "citation-abbreviations" meta >>= metaValueToText
 
-  -- TODO handle abbreviation files; use getFile for this too
-  --  Need support in citeproc first
+  mbAbbrevs <- case abbrevFile of
+                 Nothing -> return Nothing
+                 Just fp -> do
+                   rawAbbr <- getFile fp
+                   case eitherDecode (L.fromStrict rawAbbr) of
+                     Left err -> throwError $ PandocCiteprocError $
+                                 CiteprocParseError $
+                                 "Could not parse abbreviations file " <> fp
+                                 <> "\n" <> T.pack err
+                     Right abbr -> return $ Just abbr
 
   let getParentStyle url = UTF8.toText . fst <$> fetchItem url
 
@@ -78,7 +89,7 @@ processCitations (Pandoc meta bs) = do
   style <-
     case styleRes of
        Left err    -> throwError $ PandocAppError $ prettyCiteprocError err
-       Right style -> return style
+       Right style -> return style{ styleAbbreviations = mbAbbrevs }
   let mblang = parseLang <$>
          ((lookupMeta "lang" meta <|> lookupMeta "locale" meta) >>= metaValueToText)
   let locale = Citeproc.mergeLocales mblang style
