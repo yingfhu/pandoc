@@ -31,7 +31,7 @@ import qualified Text.Pandoc.UTF8 as UTF8
 import Text.Printf (printf)
 import Text.Parsec.Error
 import Text.Parsec.Pos hiding (Line)
-import Citeproc (CiteprocError)
+import Citeproc (CiteprocError, prettyCiteprocError)
 
 type Input = Text
 
@@ -141,7 +141,7 @@ handleError (Left e) =
       "The extension " <> ext <> " is not supported " <>
       "for " <> f
     PandocCiteprocError e' -> err 24 $
-      "Error processing citations: " <> T.pack (show e')
+      prettyCiteprocError e'
 
 err :: Int -> Text -> IO a
 err exitCode msg = do
