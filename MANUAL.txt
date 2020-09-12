@@ -1332,12 +1332,8 @@ header when requesting a document from a URL:
     `--metadata csl=FILE`.)  If *FILE* is a URL, it will be
     fetched via HTTP.  If *FILE* is not found relative to the
     working directory, it will be sought in the resource path
-    and finally in
-
-    - on macOS or \*nux: the `csl` subdirectory of the XDG data
-      directory (typically `$HOME/.local/share/csl`), or, if that doesn't
-      exist, in `$HOME/.csl`, or
-    - on Windows, `C:\Users\USERNAME\AppData\Roaming\csl`.
+    and finally in the `csl` subdirectory of the
+    pandoc user data directory.
 
 `--citation-abbreviations=`*FILE*
 
@@ -1346,7 +1342,8 @@ header when requesting a document from a URL:
     `--metadata citation-abbreviations=FILE`.)
     If *FILE* is a URL, it will be fetched via HTTP.  If *FILE* is not
     found relative to the working directory, it will be sought
-    on the system in the same way described under `--csl`.
+    in the resource path and finally in the `csl` subdirectory
+    of the pandoc user data directory.
 
 `--natbib`
 
