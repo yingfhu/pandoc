@@ -5035,7 +5035,7 @@ citations and a bibliography in a number of styles.  Basic usage is
 
 To use this feature, you will need to have
 
-- a document containing citations (see [Extension: `citations`], below;
+- a document containing citations (see [Extension: `citations`]);
 - a source of bibliographic data: either an external bibliography
   file or a list of `references` in the document's YAML metadata
 - optionally, a [CSL] citation style.
@@ -5082,11 +5082,11 @@ markup specs]:
 `<span class="nocase">...</span>`
 :   prevent a phrase from being capitalized as title case
 
-As an alternative to specifying a bibliography file using `--bibliography`
-or the YAML metadata field `bibliography`, you can include
-the citation data directly in the `references` field of the
-document's YAML metadata. The field should contain an array of
-YAML-encoded references, for example:
+As an alternative to specifying a bibliography file using
+`--bibliography` or the YAML metadata field `bibliography`, you
+can include the citation data directly in the `references` field
+of the document's YAML metadata. The field should contain an
+array of YAML-encoded references, for example:
 
     ---
     references:
