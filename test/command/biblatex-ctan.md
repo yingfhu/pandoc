@@ -66,7 +66,7 @@ references:
   title: 'CTAN: The Comprehensive TeX Archive Network'
   title-short: CTAN
   type: webpage
-  url: 'http://www.ctan.org'
+  URL: 'http://www.ctan.org'
 ---
 
 

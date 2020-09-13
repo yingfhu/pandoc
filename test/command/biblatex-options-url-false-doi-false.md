@@ -50,7 +50,7 @@ references:
   issued: 2012
   title: 'Title, entry type online'
   type: webpage
-  url: 'http://foo.bar'
+  URL: 'http://foo.bar'
 ---
 
 

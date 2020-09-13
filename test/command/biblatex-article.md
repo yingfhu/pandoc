@@ -99,12 +99,12 @@ references:
     suffix: Jr.
   collection-title: new series
   container-title: 'The Journaltitle: The Journalsubtitle'
-  doi: 10.1086/520976
+  DOI: 10.1086/520976
   editor:
   - family: Editor
     given: Edward
   id: 'article-opt'
-  issn: issn
+  ISSN: issn
   issue: 'number, issue'
   issued: '2008-12-31'
   language: 'en-US'
@@ -119,7 +119,7 @@ references:
   - family: Translator
     given: Ted
   type: 'article-journal'
-  url: 'http://foo.bar.baz/'
+  URL: 'http://foo.bar.baz/'
   version: version
   volume: volume
 ---

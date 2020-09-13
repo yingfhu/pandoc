@@ -42,7 +42,7 @@ references:
   title: 'Tame the BeaST: The B to X of BibTeX'
   title-short: Tame the BeaST
   type: webpage
-  url: 'http://tug.ctan.org/tex-archive/info/bibtex/tamethebeast/ttb_en.pdf'
+  URL: 'http://tug.ctan.org/tex-archive/info/bibtex/tamethebeast/ttb_en.pdf'
   version: 1.3
 - accessed: '2006-10-01'
   annote: 'This is an online entry. The [url]{.smallcaps}, which is
@@ -57,7 +57,7 @@ references:
   title: 'CTAN: The Comprehensive TeX Archive Network'
   title-short: CTAN
   type: webpage
-  url: 'http://www.ctan.org'
+  URL: 'http://www.ctan.org'
 ---
 
 

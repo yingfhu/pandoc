@@ -13,7 +13,7 @@ Kastenholz, M. A., and Philippe H. Hünenberger. 2006. “Computation of
 Methodologyindependent Ionic Solvation Free Energies from Molecular
 Simulations: I. the Electrostatic Potential in Molecular Liquids.”
 *J. Chem. Phys.* 124.
-doi:[10.1063/1.2172593](https://doi.org/10.1063/1.2172593 "10.1063/1.2172593").
+DOI:[10.1063/1.2172593](https://doi.org/10.1063/1.2172593 "10.1063/1.2172593").
 
 
 Formatted with pandoc and apa.csl, 2013-10-23:
@@ -24,14 +24,14 @@ Kastenholz, M. A., & Hünenberger, P. H. (2006). Computation of
 methodologyindependent ionic solvation free energies from molecular
 simulations: I. the electrostatic potential in molecular liquids.
 *J. Chem. Phys.*, *124*.
-doi:[10.1063/1.2172593](https://doi.org/10.1063/1.2172593 "10.1063/1.2172593")
+DOI:[10.1063/1.2172593](https://doi.org/10.1063/1.2172593 "10.1063/1.2172593")
 
 
 NOTES:
 
 - biblio2xaml
 	- fix conversion of "\hyphen”
-	- the string "doi:" should not appear as part of the content of the "doi" field 
+	- the string "DOI:" should not appear as part of the content of the "doi" field 
 
 }
 
@@ -109,7 +109,7 @@ references:
   - family: Hünenberger
     given: Philippe H.
   container-title: J. Chem. Phys.
-  doi: 10.1063/1.2172593
+  DOI: 10.1063/1.2172593
   id: kastenholz
   issued: 2006
   language: 'en-US'

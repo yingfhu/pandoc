@@ -84,7 +84,6 @@ processCitations (Pandoc meta bs) = do
 
   let getParentStyle url = UTF8.toText . fst <$> fetchItem url
 
-  -- TODO check .csl directory if not found
   styleRes <- Citeproc.parseStyle getParentStyle cslContents
   style <-
     case styleRes of

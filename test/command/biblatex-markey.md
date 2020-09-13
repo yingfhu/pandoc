@@ -57,7 +57,7 @@ references:
   title: 'Tame the BeaST: The B to X of BibTeX'
   title-short: Tame the BeaST
   type: webpage
-  url: 'http://tug.ctan.org/tex-archive/info/bibtex/tamethebeast/ttb_en.pdf'
+  URL: 'http://tug.ctan.org/tex-archive/info/bibtex/tamethebeast/ttb_en.pdf'
   version: 1.3
 ---
 

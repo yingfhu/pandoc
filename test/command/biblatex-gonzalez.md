@@ -48,7 +48,7 @@ references:
   - family: Gonzalez
     given: Ray
   id: gonzalez
-  isbn: '0-816-52066-6'
+  ISBN: '0-816-52066-6'
   issued: 2001
   language: 'en-US'
   publisher: The University of Arizona Press

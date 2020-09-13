@@ -24,7 +24,7 @@ NOTES:
 
 - biblio2yaml:
 	- eprinttype = {arxiv}, eprint = {math/0307200v3}, 
-	  should be converted to a url: http://arxiv.org/abs/math/0307200v3
+	  should be converted to a URL: http://arxiv.org/abs/math/0307200v3
 	  (prefix http://arxiv.org/abs/ seems to work for all arxiv material)
 
 }
@@ -61,7 +61,7 @@ references:
   title: 'Higher-dimensional algebra V: 2-groups'
   title-short: 'Higher-dimensional algebra V'
   type: webpage
-  url: 'http://arxiv.org/abs/math/0307200v3'
+  URL: 'http://arxiv.org/abs/math/0307200v3'
   version: 3
 ---
 

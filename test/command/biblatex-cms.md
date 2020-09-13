@@ -66,7 +66,7 @@ references:
     than ''T''. There''s also an isbn field'
   edition: 15
   id: cms
-  isbn: '0-226-10403-6'
+  ISBN: '0-226-10403-6'
   issued: 2003
   language: 'en-US'
   publisher: University of Chicago Press

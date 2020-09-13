@@ -18,7 +18,7 @@ references:
 - annote: This is a periodical entry with an issn field.
   container-title: Computers and Graphics
   id: jcg
-  issn: '0097-8493'
+  ISSN: '0097-8493'
   issue: 4
   issued: 2011
   title: Semantic 3D media and content

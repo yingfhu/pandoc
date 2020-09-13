@@ -50,7 +50,7 @@ references:
     given: M. F. A.
   container-title: Computers and Graphics
   id: sarfraz
-  issn: '0097-8493'
+  ISSN: '0097-8493'
   issue: 5
   issued: 2002
   page: '795-804'

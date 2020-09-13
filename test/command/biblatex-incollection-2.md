@@ -72,7 +72,7 @@ references:
   - family: Gaonkar
     given: Dilip Parameshwar
   id: 'gaonkar:in'
-  isbn: '0-822-32714-7'
+  ISBN: '0-822-32714-7'
   issued: 2001
   page: '1-23'
   publisher: Duke University Press

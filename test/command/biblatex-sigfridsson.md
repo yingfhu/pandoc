@@ -11,7 +11,7 @@ Formatted with pandoc and chicago-author-date.csl, 2013-10-23:
 Sigfridsson, Emma, and Ulf Ryde. 1998. “Comparison of Methods for
 Deriving Atomic Charges from the Electrostatic Potential and Moments.”
 *Journal of Computational Chemistry* 19 (4): 377–395.
-doi:[10.1002/(SICI)1096-987X(199803)19:4\<377::AID-JCC1\>3.0.CO;2-P](https://doi.org/10.1002/(SICI)1096-987X(199803)19:4<377::AID-JCC1>3.0.CO;2-P "10.1002/(SICI)1096-987X(199803)19:4<377::AID-JCC1>3.0.CO;2-P").
+DOI:[10.1002/(SICI)1096-987X(199803)19:4\<377::AID-JCC1\>3.0.CO;2-P](https://doi.org/10.1002/(SICI)1096-987X(199803)19:4<377::AID-JCC1>3.0.CO;2-P "10.1002/(SICI)1096-987X(199803)19:4<377::AID-JCC1>3.0.CO;2-P").
 
 
 Formatted with pandoc and apa.csl, 2013-10-23:
@@ -21,13 +21,13 @@ Formatted with pandoc and apa.csl, 2013-10-23:
 Sigfridsson, E., & Ryde, U. (1998). Comparison of methods for deriving
 atomic charges from the electrostatic potential and moments. *Journal of
 Computational Chemistry*, *19*(4), 377–395.
-doi:[10.1002/(SICI)1096-987X(199803)19:4\<377::AID-JCC1\>3.0.CO;2-P](https://doi.org/10.1002/(SICI)1096-987X(199803)19:4<377::AID-JCC1>3.0.CO;2-P "10.1002/(SICI)1096-987X(199803)19:4<377::AID-JCC1>3.0.CO;2-P")
+DOI:[10.1002/(SICI)1096-987X(199803)19:4\<377::AID-JCC1\>3.0.CO;2-P](https://doi.org/10.1002/(SICI)1096-987X(199803)19:4<377::AID-JCC1>3.0.CO;2-P "10.1002/(SICI)1096-987X(199803)19:4<377::AID-JCC1>3.0.CO;2-P")
 
 
 NOTES:
 
 - biblio2xaml
-	- the string "doi:" should not appear as part of the content of the "doi" field 
+	- the string "DOI:" should not appear as part of the content of the "doi" field 
 
 }
 
@@ -90,7 +90,7 @@ references:
   - family: Ryde
     given: Ulf
   container-title: Journal of Computational Chemistry
-  doi: '10.1002/(SICI)1096-987X(199803)19:4\<377::AID-JCC1\>3.0.CO;2-P'
+  DOI: '10.1002/(SICI)1096-987X(199803)19:4\<377::AID-JCC1\>3.0.CO;2-P'
   id: sigfridsson
   issue: 4
   issued: 1998

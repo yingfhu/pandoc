@@ -58,7 +58,7 @@ references:
     people'
   title-short: The importance of being earnest
   type: book
-  url: 'http://books.google.com?id=4HIWAAAAYAAJ'
+  URL: 'http://books.google.com?id=4HIWAAAAYAAJ'
 ---
 
 

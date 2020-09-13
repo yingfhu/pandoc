@@ -24,7 +24,7 @@ NOTES:
 
 - biblio2yaml:
 	- eprinttype = {arxiv}, eprint = {hep-th/9603067}, 
-	  should be converted to a url: http://arxiv.org/abs/hep-th/9603067
+	  should be converted to a URL: http://arxiv.org/abs/hep-th/9603067
 	  (prefix http://arxiv.org/abs/ seems to work for all arxiv material)
 
 - citeproc:
@@ -75,7 +75,7 @@ references:
   title: 'Some remarks on ''[t Hooft''s]{.nocase} S-matrix for black
     holes'
   type: webpage
-  url: 'http://arxiv.org/abs/hep-th/9603067'
+  URL: 'http://arxiv.org/abs/hep-th/9603067'
   version: 1
 ---
 

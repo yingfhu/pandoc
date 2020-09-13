@@ -45,7 +45,7 @@ referenceToMetaValue ref =
       type' = referenceType ref
    in MetaMap $ M.insert "id" (MetaString id')
               $ M.insert "type" (MetaString type')
-              $ M.mapKeys fromVariable
+              $ M.mapKeys (normalizeKey . fromVariable)
               $ M.map valToMetaValue
               $ referenceVariables ref
 
