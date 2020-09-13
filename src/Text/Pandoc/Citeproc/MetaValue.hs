@@ -45,7 +45,9 @@ referenceToMetaValue ref =
       type' = referenceType ref
    in MetaMap $ M.insert "id" (MetaString id')
               $ M.insert "type" (MetaString type')
-              $ M.map valToMetaValue $ referenceVariables ref
+              $ M.mapKeys fromVariable
+              $ M.map valToMetaValue
+              $ referenceVariables ref
 
 
 valToMetaValue :: Val Inlines -> MetaValue
@@ -109,7 +111,7 @@ metaValueToReference (MetaMap m) = do
   return $ Reference { referenceId = ItemId id'
                      , referenceType = type'
                      , referenceDisambiguation = Nothing
-                     , referenceVariables = vars }
+                     , referenceVariables = M.mapKeys toVariable vars }
 metaValueToReference _ = Nothing
 
 metaValueToVal :: Text -> MetaValue -> Val Inlines
