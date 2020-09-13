@@ -156,7 +156,8 @@ yamlMetadataBlock v = "---" $$ (contextToYaml v) $$ "---"
 
 contextToYaml :: Context Text -> Doc Text
 contextToYaml (Context o) =
-  vcat $ map keyvalToYaml $ sortBy (comparing fst) $ M.toList o
+  vcat $ map keyvalToYaml $ sortBy (comparing (T.toLower . fst))
+       $  M.toList o
  where
   keyvalToYaml (k,v) =
           case (text (T.unpack k), v) of
