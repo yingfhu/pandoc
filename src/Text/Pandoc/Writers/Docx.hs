@@ -60,6 +60,17 @@ import Text.TeXMath
 import Text.XML.Light as XML
 import Text.XML.Light.Cursor as XMLC
 import Text.Pandoc.Writers.OOXML
+import Data.IORef
+import System.IO.Unsafe
+-- import Debug.Trace
+
+myGlobalVar :: IORef Int 
+{-# NOINLINE myGlobalVar #-}
+myGlobalVar = unsafePerformIO (newIORef 1)
+
+makeblocks :: [T.Text] -> Text.Pandoc.Definition.Attr -> [[Block]]
+makeblocks [] _ = [[]]
+makeblocks (x:xs) attrs = [BlockQuote [Para [Code attrs x]]]:makeblocks xs attrs
 
 data ListMarker = NoMarker
                 | BulletMarker
@@ -981,10 +992,23 @@ blockToOpenXML' opts (BlockQuote blocks) = do
        $ blocksToOpenXML opts blocks
   setFirstPara
   return p
-blockToOpenXML' opts (CodeBlock attrs@(ident, _, _) str) = do
-  p <- withParaPropM (pStyleM "Source Code") (blockToOpenXML opts $ Para [Code attrs str])
-  setFirstPara
-  wrapBookmark ident p
+blockToOpenXML' opts (CodeBlock attrs@(ident, cls, _) str)
+  | "python" `elem` cls = do
+      p <- withParaPropM (pStyleM "List Number") (blockToOpenXML opts $ OrderedList (unsafePerformIO tmp, DefaultStyle, DefaultDelim) blocks)
+      setFirstPara
+      wrapBookmark ident p
+  | otherwise = do
+      p <- withParaPropM (pStyleM "Source Code") (blockToOpenXML opts $ Para [Code attrs str])
+      setFirstPara
+      wrapBookmark ident p
+  where 
+      codelines = T.splitOn (T.pack "\n") str 
+      blocks = makeblocks codelines attrs
+      l = length blocks - 1 
+      tmp = do
+         tmp1 <- readIORef myGlobalVar
+         replicateM_ 1 $ modifyIORef' myGlobalVar (+l)
+         return $ traceShowId tmp1
 blockToOpenXML' _ HorizontalRule = do
   setFirstPara
   return [
